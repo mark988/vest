@@ -24,6 +24,8 @@
         }
         #product-grid-wrap.open { grid-template-rows: 1fr; opacity: 1; }
         #product-grid-wrap > .grid-inner { overflow: hidden; min-height: 0; }
+        /* 导航当前栏目高亮 */
+        .nav-active { color: #4f46e5 !important; font-weight: 600; }
         .hero-bg {
             background: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=1920') center/cover no-repeat;
         }
@@ -695,6 +697,33 @@
         document.querySelectorAll('#mobile-menu a').forEach(link => {
             link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); });
         });
+
+        // 导航高亮：标出当前正在浏览的栏目（滚动监听 + 点击即时高亮）
+        const navLinks = Array.from(document.querySelectorAll('nav a[href^="#"]'));
+        const spySections = ['home', 'about', 'why-vest', 'products', 'partners', 'contact']
+            .map(id => document.getElementById(id)).filter(Boolean);
+
+        function setActiveNav(id) {
+            navLinks.forEach(a => a.classList.toggle('nav-active', a.getAttribute('href') === '#' + id));
+        }
+
+        // 点击导航：立即高亮，并在平滑滚动期间短暂锁定，避免途经的栏目闪烁
+        let navLock = false, navLockTimer;
+        navLinks.forEach(a => {
+            a.addEventListener('click', () => {
+                setActiveNav(a.getAttribute('href').slice(1));
+                navLock = true;
+                clearTimeout(navLockTimer);
+                navLockTimer = setTimeout(() => { navLock = false; }, 800);
+            });
+        });
+
+        // 滚动监听：哪个栏目进入视口中部，就高亮对应菜单
+        const navSpy = new IntersectionObserver((entries) => {
+            if (navLock) return;
+            entries.forEach(entry => { if (entry.isIntersecting) setActiveNav(entry.target.id); });
+        }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+        spySections.forEach(s => navSpy.observe(s));
 
         // ============================================================
         //  招商表单：提交到 Web3Forms（邮件通知）+ 聊天直达（无需自建后台）
