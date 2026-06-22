@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="meta-title">VEST Myanmar | Official & Exclusive Distributor of VEST - School Bag Myanmar</title>
+    <meta name="description" content="Official & Exclusive Distributor of VEST in Myanmar. Premium VEST School Bag, VEST Backpack, VEST Water Bottle, and VEST Lunch Box for Growing Kids. Find premium school bag Myanmar.">
+    <meta name="keywords" content="VEST Myanmar, VEST School Bag, VEST Backpack, VEST Water Bottle, VEST Lunch Box, School Bag Myanmar, Kids Backpack Myanmar">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        /* 隐藏横向滚动条但保留滚动能力（商品滚动区） */
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        /* 完整商品列表：缓缓展开 / 收起（grid fr 高度过渡） */
+        #product-grid-wrap {
+            display: grid;
+            grid-template-rows: 0fr;
+            opacity: 0;
+            transition: grid-template-rows .6s ease, opacity .6s ease;
+        }
+        #product-grid-wrap.open { grid-template-rows: 1fr; opacity: 1; }
+        #product-grid-wrap > .grid-inner { overflow: hidden; min-height: 0; }
+        .hero-bg {
+            background: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=1920') center/cover no-repeat;
+        }
+        /* 针对缅甸语微调字体，防止排版错乱 */
+        :lang(mm) {
+            font-family: 'Padauk', 'Pyidaungsu', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <nav class="fixed w-full bg-white/90 backdrop-blur-md z-50 shadow-sm border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex flex-col">
+                    <span class="text-2xl font-black tracking-wider text-indigo-600">VEST <span class="text-xs font-bold text-slate-400 tracking-normal">MYANMAR</span></span>
+                    <span class="text-[10px] text-slate-500 uppercase tracking-widest font-medium">By Evergrow Myanmar</span>
+                </div>
+                
+                <div class="hidden md:flex space-x-6 lg:space-x-8 font-medium text-slate-600 items-center">
+                    <a href="#home" data-i18n="nav-home" class="hover:text-indigo-600 transition-colors">Home</a>
+                    <a href="#about" data-i18n="nav-about" class="hover:text-indigo-600 transition-colors">About Us</a>
+                    <a href="#why-vest" data-i18n="nav-why" class="hover:text-indigo-600 transition-colors">Why VEST</a>
+                    <a href="#products" data-i18n="nav-products" class="hover:text-indigo-600 transition-colors">Products</a>
+                    <a href="#partners" data-i18n="nav-partners" class="hover:text-indigo-600 transition-colors">Retail Partners</a>
+                    <a href="#contact" data-i18n="nav-contact" class="hover:text-indigo-600 transition-colors">Contact Us</a>
+                    
+                    <div class="relative inline-block text-left ml-4">
+                        <select id="lang-select" class="bg-slate-100 border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block px-2.5 py-1.5 font-semibold cursor-pointer outline-none">
+                            <option value="zh">🇨🇳 中文</option>
+                            <option value="en" selected>🇺🇸 English</option>
+                            <option value="mm">🇲🇲 မြန်မာ</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4 md:hidden">
+                    <select id="lang-select-mobile" class="bg-slate-100 border border-slate-200 text-slate-700 text-xs rounded-lg block px-2 py-1 outline-none">
+                        <option value="zh">🇨🇳 中</option>
+                        <option value="en" selected>🇺🇸 En</option>
+                        <option value="mm">🇲🇲 မြန်မာ</option>
+                    </select>
+                    <button id="menu-btn" class="text-slate-600 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-100 px-4 pt-2 pb-6 space-y-3 shadow-inner">
+            <a href="#home" data-i18n="nav-home" class="block text-slate-600 hover:text-indigo-600 py-1 font-medium">Home</a>
+            <a href="#about" data-i18n="nav-about" class="block text-slate-600 hover:text-indigo-600 py-1 font-medium">About Us</a>
+            <a href="#why-vest" data-i18n="nav-why" class="block text-slate-600 hover:text-indigo-600 py-1 font-medium">Why VEST</a>
+            <a href="#products" data-i18n="nav-products" class="block text-slate-600 hover:text-indigo-600 py-1 font-medium">Products</a>
+            <a href="#partners" data-i18n="nav-partners" class="block text-slate-600 hover:text-indigo-600 py-1 font-medium">Retail Partners</a>
+            <a href="#contact" data-i18n="nav-contact" class="block text-slate-600 hover:text-indigo-600 py-1 font-medium">Contact Us</a>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-bg min-h-screen flex items-center pt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left text-white w-full">
+            <div class="max-w-3xl">
+                <span data-i18n="hero-tag" class="inline-block bg-indigo-600 text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-6">
+                    Official & Exclusive Distributor
+                </span>
+                <h1 data-i18n="hero-title" class="text-3xl md:text-6xl font-black tracking-tight leading-tight mb-6">
+                    VEST Official & Exclusive Distributor in Myanmar
+                </h1>
+                <p data-i18n="hero-subtitle" class="text-base md:text-xl text-slate-300 font-light mb-10 leading-relaxed">
+                    Premium School Bags, Water Bottles, Lunch Boxes & school accessories for Growing Kids.
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center md:justify-start">
+                    <a href="#products" data-i18n="hero-btn-view" class="inline-flex justify-center items-center px-8 py-4 bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-lg shadow-lg shadow-indigo-600/30 transition-all transform hover:-translate-y-0.5">
+                        View Products
+                    </a>
+                    <a href="#partners" data-i18n="hero-btn-partner" class="inline-flex justify-center items-center px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/30 font-semibold rounded-lg backdrop-blur-sm transition-all transform hover:-translate-y-0.5">
+                        Become a Retail Partner
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <span data-i18n="about-tag" class="text-xs font-bold tracking-widest uppercase text-indigo-600 block mb-3">Our Story</span>
+                    <h2 data-i18n="about-title" class="text-2xl md:text-4xl font-black text-slate-900 tracking-tight mb-8">
+                        Evergrow Myanmar & International Brand VEST
+                    </h2>
+                    <div id="about-content" class="space-y-6 text-slate-600 leading-relaxed font-light text-sm md:text-base">
+                        </div>
+                </div>
+                
+                <div class="bg-slate-50 p-6 md:p-12 rounded-2xl border border-slate-100 shadow-sm grid grid-cols-2 gap-4 md:gap-6">
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100">
+                        <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 mb-4 text-lg"><i class="fa-solid fa-lightbulb"></i></div>
+                        <h4 data-i18n="card1-title" class="font-bold text-slate-900 mb-1.5 text-sm md:text-base">品牌理念</h4>
+                        <p data-i18n="card1-desc" class="text-xs text-slate-500 leading-relaxed">每一个孩子都值得拥有更好的成长体验。</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 mb-4 text-lg"><i class="fa-solid fa-compass-drafting"></i></div>
+                        <h4 data-i18n="card2-title" class="font-bold text-slate-900 mb-1.5 text-sm md:text-base">产品设计</h4>
+                        <p data-i18n="card2-desc" class="text-xs text-slate-500 leading-relaxed">兼顾时尚外观与人体工学，更懂儿童所需。</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100">
+                        <div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 mb-4 text-lg"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h4 data-i18n="card3-title" class="font-bold text-slate-900 mb-1.5 text-sm md:text-base">品质标准</h4>
+                        <p data-i18n="card3-desc" class="text-xs text-slate-500 leading-relaxed">严格的国际安全筛选，让家长买得放心。</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100">
+                        <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 mb-4 text-lg"><i class="fa-solid fa-globe"></i></div>
+                        <h4 data-i18n="card4-title" class="font-bold text-slate-900 mb-1.5 text-sm md:text-base">国际品牌形象</h4>
+                        <p data-i18n="card4-desc" class="text-xs text-slate-500 leading-relaxed">同步全球前沿品质，塑造顶尖儿童用品标准。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="why-vest" class="py-24 bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span data-i18n="why-tag" class="text-xs font-bold tracking-widest uppercase text-indigo-400 block mb-3">Core Advantages</span>
+                <h2 data-i18n="why-title" class="text-2xl md:text-4xl font-black tracking-tight">Why Choose VEST?</h2>
+                <p data-i18n="why-subtitle" class="text-slate-400 mt-4 font-light text-sm md:text-base">打造极致科技与舒适感，全方位保护孩子健康成长。</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8">
+                <div class="bg-slate-800/50 border border-slate-700/50 p-6 rounded-xl text-center">
+                    <div class="w-12 h-12 mx-auto bg-indigo-600/20 text-indigo-400 rounded-full flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-child"></i></div>
+                    <h3 class="font-bold text-base md:text-lg mb-2">Ergonomic Design</h3>
+                    <p data-i18n="feat-1" class="text-xs text-slate-400 leading-relaxed">科学保护脊椎健康，贴合背部生理曲线。</p>
+                </div>
+                <div class="bg-slate-800/50 border border-slate-700/50 p-6 rounded-xl text-center">
+                    <div class="w-12 h-12 mx-auto bg-indigo-600/20 text-indigo-400 rounded-full flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-leaf"></i></div>
+                    <h3 class="font-bold text-base md:text-lg mb-2">BPA Free Materials</h3>
+                    <p data-i18n="feat-2" class="text-xs text-slate-400 leading-relaxed">严格选用无毒安全材质，入口更安心。</p>
+                </div>
+                <div class="bg-slate-800/50 border border-slate-700/50 p-6 rounded-xl text-center">
+                    <div class="w-12 h-12 mx-auto bg-indigo-600/20 text-indigo-400 rounded-full flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-feather"></i></div>
+                    <h3 class="font-bold text-base md:text-lg mb-2">Lightweight</h3>
+                    <p data-i18n="feat-3" class="text-xs text-slate-400 leading-relaxed">极致轻量化结构减负，让前行无拘无束。</p>
+                </div>
+                <div class="bg-slate-800/50 border border-slate-700/50 p-6 rounded-xl text-center">
+                    <div class="w-12 h-12 mx-auto bg-indigo-600/20 text-indigo-400 rounded-full flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-gem"></i></div>
+                    <h3 class="font-bold text-base md:text-lg mb-2">Durable</h3>
+                    <p data-i18n="feat-4" class="text-xs text-slate-400 leading-relaxed">耐磨抗摔品质保障，经得起长期使用。</p>
+                </div>
+                <div class="bg-slate-800/50 border border-slate-700/50 p-6 rounded-xl text-center">
+                    <div class="w-12 h-12 mx-auto bg-indigo-600/20 text-indigo-400 rounded-full flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-face-smile"></i></div>
+                    <h3 class="font-bold text-base md:text-lg mb-2">Kid-Friendly Design</h3>
+                    <p data-i18n="feat-5" class="text-xs text-slate-400 leading-relaxed">专为儿童设计的便捷细节，好用更好看。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span data-i18n="prod-tag" class="text-xs font-bold tracking-widest uppercase text-indigo-600 block mb-3">Product Collections</span>
+                <h2 data-i18n="prod-title" class="text-2xl md:text-4xl font-black text-slate-900 tracking-tight">Premium Collections</h2>
+                <p data-i18n="prod-subtitle" class="text-slate-500 mt-4 font-light text-sm md:text-base">探索 VEST 专为儿童打造的一流开学装备与出行好物。</p>
+            </div>
+
+            <!-- 横向滚动商品区（约20个商品，可手势滑动 / 桌面端箭头） -->
+            <div id="scroll-region" class="relative">
+                <button id="scroll-left" aria-label="Scroll left" class="hidden md:flex absolute -left-2 lg:-left-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white shadow-lg border border-slate-100 items-center justify-center text-slate-600 hover:text-indigo-600 hover:shadow-xl transition-all">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <div id="product-scroll" class="flex gap-6 overflow-x-auto no-scrollbar pb-4">
+                    <!-- 商品卡片由 JS 渲染 -->
+                </div>
+                <button id="scroll-right" aria-label="Scroll right" class="hidden md:flex absolute -right-2 lg:-right-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white shadow-lg border border-slate-100 items-center justify-center text-slate-600 hover:text-indigo-600 hover:shadow-xl transition-all">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <!-- 更多按钮：同页内展开 / 收起完整商品网格 -->
+            <div class="text-center mt-12">
+                <button id="btn-more" class="inline-flex items-center gap-2 px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md shadow-indigo-600/20 transition-all transform hover:-translate-y-0.5">
+                    <span id="btn-more-text" data-i18n="prod-more">View All Products</span>
+                    <i id="btn-more-icon" class="fa-solid fa-arrow-down text-xs"></i>
+                </button>
+            </div>
+
+            <!-- 完整商品列表（默认收起，点击"View All Products"缓缓展开） -->
+            <div id="product-grid-wrap" class="scroll-mt-24">
+                <div class="grid-inner">
+                    <div class="mt-10">
+                        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                            <!-- 商品卡片由 JS 渲染 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="partners" class="py-24 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span data-i18n="form-tag" class="text-xs font-bold tracking-widest uppercase text-indigo-600 block mb-3">B2B Wholesale Channel</span>
+                <h2 data-i18n="form-title" class="text-2xl md:text-4xl font-black text-slate-900 tracking-tight">Become a Retail Partner</h2>
+                <p data-i18n="form-subtitle" class="text-slate-500 mt-4 font-light text-sm md:text-base">
+                    Interested in becoming a VEST retailer? Fill out the fast application below, and our official distribution team will contact your store shortly.
+                </p>
+            </div>
+
+            <form id="partner-form" novalidate class="bg-slate-50 p-6 md:p-10 rounded-2xl border border-slate-100 shadow-sm space-y-6">
+                <!-- 蜜罐字段：人类看不见，机器人会填，用于拦截垃圾提交 -->
+                <input type="text" id="hp-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label id="lbl-shop" class="block text-xs font-bold uppercase text-slate-600 tracking-wider mb-2">Shop Name / 店名 *</label>
+                        <input type="text" id="ipt-shop" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-indigo-500 text-sm">
+                    </div>
+                    <div>
+                        <label id="lbl-name" class="block text-xs font-bold uppercase text-slate-600 tracking-wider mb-2">Contact Person / 联系人 *</label>
+                        <input type="text" id="ipt-name" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-indigo-500 text-sm">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label id="lbl-phone" class="block text-xs font-bold uppercase text-slate-600 tracking-wider mb-2">Phone Number / 电话 *</label>
+                        <input type="tel" id="ipt-phone" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-indigo-500 text-sm">
+                    </div>
+                    <div>
+                        <label id="lbl-city" class="block text-xs font-bold uppercase text-slate-600 tracking-wider mb-2">City / 城市 *</label>
+                        <input type="text" id="ipt-city" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-indigo-500 text-sm">
+                    </div>
+                </div>
+                <div id="form-error" class="hidden text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3"></div>
+                <div class="pt-4">
+                    <button type="submit" id="btn-submit" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg transition-colors shadow-md shadow-indigo-600/10 disabled:opacity-60 disabled:cursor-not-allowed">
+                        Submit Partnership Inquiry
+                    </button>
+                </div>
+            </form>
+
+            <!-- 提交成功面板（默认隐藏） -->
+            <div id="form-success" class="hidden bg-green-50 border border-green-200 rounded-2xl p-8 md:p-10 text-center">
+                <div class="w-14 h-14 mx-auto bg-green-100 text-green-600 rounded-full flex items-center justify-center text-2xl mb-4">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h3 id="success-title" data-i18n="form-success-title" class="text-xl font-bold text-slate-900 mb-2">We've received your application</h3>
+                <p id="success-desc" data-i18n="form-success-desc" class="text-slate-500 font-light text-sm md:text-base mb-6">Our official distribution team will contact you shortly.</p>
+                <a id="success-viber" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-7 py-3.5 bg-[#7360f2] hover:bg-[#5b4bd6] text-white font-semibold rounded-lg transition-colors">
+                    <i class="fa-brands fa-viber"></i> <span data-i18n="form-viber-btn">Contact us on Viber now</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-slate-900 text-slate-400 py-16 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-4">Evergrow Myanmar</h4>
+                    <p data-i18n="footer-desc" class="text-sm text-slate-400 font-light leading-relaxed mb-4">
+                        The Exclusive & Official Distributor of international premium kids brand VEST in Myanmar.
+                    </p>
+                </div>
+                <div>
+                    <h4 data-i18n="footer-ch" class="text-white font-bold text-lg mb-4">Official Channels</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li>
+                            <a href="https://www.facebook.com" target="_blank" class="hover:text-white transition-colors flex items-center">
+                                <i class="fa-brands fa-facebook text-indigo-400 mr-2.5 text-base"></i> Evergrow Myanmar | Official & Exclusive Distributor of VEST
+                            </a>
+                            <div class="mt-3 flex items-center gap-3">
+                                <a href="https://www.facebook.com" target="_blank" class="bg-white p-2 rounded-lg shrink-0">
+                                    <img src="https://ozhouse.oss-ap-southeast-1.aliyuncs.com/image/2026fb.png" alt="Scan QR code to follow Evergrow Myanmar - Official Distributor of VEST in Myanmar on Facebook" width="112" height="112" loading="lazy" class="w-28 h-28 object-contain rounded">
+                                </a>
+                                <span data-i18n="footer-qr" class="text-xs text-slate-400 font-light leading-relaxed">Scan to follow us on Facebook</span>
+                            </div>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa-solid fa-phone text-indigo-400 mr-2.5 text-sm"></i> Phone & Viber: 09780080666
+                        </li>
+                        <li>
+                            <div class="flex items-center">
+                                <i class="fa-brands fa-weixin text-indigo-400 mr-2.5 text-sm"></i> WeChat Active Integration
+                            </div>
+                            <div class="mt-3 flex items-center gap-3">
+                                <div class="bg-white p-2 rounded-lg shrink-0">
+                                    <img src="https://ozhouse.oss-ap-southeast-1.aliyuncs.com/image/2026wechat.png" alt="Scan WeChat QR code to connect with Evergrow Myanmar - Official Distributor of VEST in Myanmar" width="112" height="112" loading="lazy" class="w-28 h-28 object-contain rounded">
+                                </div>
+                                <span data-i18n="footer-qr-wechat" class="text-xs text-slate-400 font-light leading-relaxed">Scan to add us on WeChat</span>
+                            </div>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa-solid fa-envelope text-indigo-400 mr-2.5 text-sm"></i> Email: info@evergwomm.com
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 data-i18n="footer-strat-title" class="text-white font-bold text-lg mb-4">Brand Strategy</h4>
+                    <p data-i18n="footer-strat-desc" class="text-sm text-slate-400 font-light leading-relaxed">
+                        Focused heavily on reliable brand image representation and superior high-ranking Google SEO visibility.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
+                <p>© 2026 VEST Myanmar. All Rights Reserved.</p>
+                <p class="mt-2 md:mt-0 font-medium tracking-wider uppercase text-slate-400">
+                    Operated by Evergrow Myanmar
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. 三国语言包定义
+        const langData = {
+            zh: {
+                "meta-title": "VEST Myanmar | VEST 缅甸官方独家代理商 - 缅甸儿童书包与背包",
+                "nav-home": "首页", "nav-about": "关于我们", "nav-why": "为什么选择 VEST", "nav-products": "产品系列", "nav-partners": "零售合作", "nav-contact": "联系我们",
+                "hero-tag": "官方与独家代理商",
+                "hero-title": "VEST 缅甸官方独家代理商",
+                "hero-subtitle": "为处于成长期的孩子们提供优质、高端的儿童书包、水杯、饭盒及校园配件。",
+                "hero-btn-view": "浏览产品", "hero-btn-partner": "成为零售合作伙伴",
+                "about-tag": "我们的故事",
+                "about-title": "Evergrow Myanmar 与国际品牌 VEST",
+                "card1-title": "品牌理念", "card1-desc": "每一个孩子都值得拥有更好的成长体验。",
+                "card2-title": "产品设计", "card2-desc": "兼顾时尚外观与人体工学，更懂儿童所需。",
+                "card3-title": "品质标准", "card3-desc": "严格的国际安全筛选，让家长买得放心。",
+                "card4-title": "国际品牌形象", "card4-desc": "同步全球前沿品质，塑造顶尖儿童用品标准。",
+                "why-tag": "核心优势", "why-title": "为什么选择 VEST？", "why-subtitle": "打造极致科技与舒适感，全方位保护孩子健康成长。",
+                "feat-1": "科学保护脊椎健康，贴合背部生理曲线。",
+                "feat-2": "严格选用无毒安全材质（不含双酚A），入口更安心。",
+                "feat-3": "极致轻量化结构减负，让前行无拘无束。",
+                "feat-4": "耐磨抗摔品质保障，经得起长期使用。",
+                "feat-5": "专为儿童设计的便捷细节，好用更好看。",
+                "prod-tag": "产品中心", "prod-title": "高端开学系列", "prod-subtitle": "探索 VEST 专为儿童打造的一流开学装备与出行好物。",
+                "prod-more": "查看全部商品", "prod-less": "收起列表",
+                "form-tag": "B2B 批发与招商渠道", "form-title": "零售伙伴加盟", "form-subtitle": "有意向成为 VEST 零售商或门店合作伙伴吗？请填写下方简要申请，我们的官方分销团队会尽快与您的店铺取得联系。",
+                "lbl-shop": "店铺名称 *", "lbl-name": "联系人姓名 *", "lbl-phone": "电话 / Viber 号码 *", "lbl-city": "所在城市 *", "btn-submit": "提交加盟申请",
+                "ipt-shop": "请输入您的店名", "ipt-name": "您的全名", "ipt-phone": "有效的联系电话或 Viber", "ipt-city": "例如：仰光、曼德勒",
+                "form-sending": "提交中…", "form-error": "请完整填写所有必填项。", "form-error-net": "网络异常，提交失败。请改用 Viber 或电话直接联系我们。",
+                "form-success-title": "我们已收到您的申请！", "form-success-desc": "VEST 官方分销团队会尽快与您的店铺取得联系。", "form-viber-btn": "立即用 Viber 联系我们",
+                "footer-desc": "Evergrow Myanmar 是国际高端儿童品牌 VEST 在缅甸的官方独家代理商。我们致力于为全国各地的家庭、学校带来高安全标准、高品质的产品。",
+                "footer-ch": "官方渠道", "footer-strat-title": "品牌与搜索排名战略", "footer-strat-desc": "重点专注于树立最权威的官方渠道形象，赢得消费者长效信任，并在 Google 搜索排名中保持强劲曝光。",
+                "footer-qr": "扫码关注我们的 Facebook 主页", "footer-qr-wechat": "扫码添加我们的微信"
+            },
+            en: {
+                "meta-title": "VEST Myanmar | Official & Exclusive Distributor of VEST - School Bag Myanmar",
+                "nav-home": "Home", "nav-about": "About Us", "nav-why": "Why VEST", "nav-products": "Products", "nav-partners": "Retail Partners", "nav-contact": "Contact Us",
+                "hero-tag": "Official & Exclusive Distributor",
+                "hero-title": "VEST Official & Exclusive Distributor in Myanmar",
+                "hero-subtitle": "Premium School Bags, Water Bottles, Lunch Boxes & school accessories for Growing Kids.",
+                "hero-btn-view": "View Products", "hero-btn-partner": "Become a Retail Partner",
+                "about-tag": "Our Story",
+                "about-title": "Evergrow Myanmar & International Brand VEST",
+                "card1-title": "Brand Philosophy", "card1-desc": "Every single child truly deserves a vastly superior growth experience.",
+                "card2-title": "Product Design", "card2-desc": "Perfectly balancing modern aesthetics with advanced posture ergonomics.",
+                "card3-title": "Quality Standards", "card3-desc": "Rigorous premium multi-stage international safety certifications.",
+                "card4-title": "Global Authority", "card4-desc": "Synchronized perfectly with elite international tier product blueprints.",
+                "why-tag": "Core Advantages", "why-title": "Why Choose VEST?", "why-subtitle": "Engineered with scientific safety comfort parameters protecting active children.",
+                "feat-1": "Protects spine health perfectly matching spine contours.",
+                "feat-2": "Exclusively 100% BPA Free non-toxic premium food-grade material layouts.",
+                "feat-3": "Remarkably ultra-lightweight setup layout reducing heavy luggage stress.",
+                "feat-4": "Superb anti-abrasion drop-proof chassis optimized for longevity.",
+                "feat-5": "Smart micro-details custom-built perfectly for school environments.",
+                "prod-tag": "Product Collections", "prod-title": "Premium Collections", "prod-subtitle": "Explore top-tier high-performance ergonomic school gear tailored expertly for kids.",
+                "prod-more": "View All Products", "prod-less": "Show Less",
+                "form-tag": "B2B Wholesale Channel", "form-title": "Become a Retail Partner", "form-subtitle": "Interested in becoming a VEST retailer? Fill out the fast application below, and our official distribution team will contact your store shortly.",
+                "lbl-shop": "Shop Name *", "lbl-name": "Contact Person *", "lbl-phone": "Phone / Viber *", "lbl-city": "City *", "btn-submit": "Submit Partnership Inquiry",
+                "ipt-shop": "Enter your shop name", "ipt-name": "Your full name", "ipt-phone": "Active contact phone or Viber number", "ipt-city": "e.g., Yangon, Mandalay",
+                "form-sending": "Submitting…", "form-error": "Please fill in all required fields.", "form-error-net": "Network error, submission failed. Please contact us directly via Viber or phone.",
+                "form-success-title": "We've received your application!", "form-success-desc": "Our official VEST distribution team will contact your store shortly.", "form-viber-btn": "Contact us on Viber now",
+                "footer-desc": "The Exclusive & Official Distributor of international premium kids brand VEST in Myanmar. Ensuring safety, quality, and exceptional experiences for families nationwide.",
+                "footer-ch": "Official Channels", "footer-strat-title": "Brand Strategy", "footer-strat-desc": "Focused heavily on reliable brand image representation, consumer trust, and superior high-ranking Google SEO visibility.",
+                "footer-qr": "Scan to follow us on Facebook", "footer-qr-wechat": "Scan to add us on WeChat"
+            },
+            mm: {
+                "meta-title": "VEST Myanmar | VEST ၏ တရားဝင် တစ်ဦးတည်းကိုယ်စားလှယ် - ကျောင်းလွယ်အိတ်",
+                "nav-home": "ပင်မစာမျက်နှာ", "nav-about": "ကျွန်ုပ်တို့အကြောင်း", "nav-why": "VEST ကိုရွေးချယ်ရခြင်း", "nav-products": "ထုတ်ကုန်များ", "nav-partners": "လက်လီမိတ်ဖက်", "nav-contact": "ဆက်သွယ်ရန်",
+                "hero-tag": "တရားဝင် နှင့် တစ်ဦးတည်းကိုယ်စားလှယ်ကြီး",
+                "hero-title": "မြန်မာနိုင်ငံရှိ VEST ၏ တရားဝင် တစ်ဦးတည်းကိုယ်စားလှယ်",
+                "hero-subtitle": "ကြီးထွားလာသော ကလေးငယ်များအတွက် ပရီမီယံ ကျောင်းလွယ်အိတ်များ၊ ရေဘူးများ၊ ထမင်းဗူးများနှင့် ကျောင်းသုံးပစ္စည်းများ။",
+                "hero-btn-view": "ထုတ်ကုန်များကြည့်ရန်", "hero-btn-partner": "လက်လီမိတ်ဖက် ဖြစ်လာရန်",
+                "about-tag": "ကျွန်ုပ်တို့၏အကြောင်းအရာ",
+                "about-title": "Evergrow Myanmar နှင့် အပြည်ပြည်ဆိုင်ရာ အမှတ်တံဆိပ် VEST",
+                "card1-title": "အမှတ်တံဆိပ် ရည်မှန်းချက်", "card1-desc": "ကလေးတိုင်း ပိုမိုကောင်းမွန်သော ကြီးထွားမှုအတွေ့အကြုံကို ရရှိပိုင်ဆိုင်ထိုက်ပါသည်။",
+                "card2-title": "ဒီဇိုင်းပိုင်း", "card2-desc": "ခေတ်မီဆန်းသစ်ပြီး ခန္ဓာကိုယ်အနေအထားနှင့် ကိုက်ညီအောင် ပြုလုပ်ထားပါသည်။",
+                "card3-title": "အရည်အသွေး စံနှုန်း", "card3-desc": "နိုင်ငံတကာ ဘေးကင်းလုံခြုံမှု စံနှုန်းများဖြင့် စစ်ဆေးထားသဖြင့် စိတ်ချရပါသည်။",
+                "card4-title": "နိုင်ငံတကာ ပုံရိပ်", "card4-desc": "ကမ္ဘာ့အဆင့်မီ ထိပ်တန်းကလေးသုံးပစ္စည်း စံနှုန်းများကို ဖော်ဆောင်ပေးပါသည်။",
+                "why-tag": "အဓိကအားသာချက်များ", "why-title": "ဘာကြောင့် VEST ကို ရွေးချယ်သင့်သလဲ။", "why-subtitle": "ကလေးငယ်များ ကျန်းမာစွာ ကြီးထွားနိုင်စေရန် ဘေးကင်းလုံခြုံမှုနှင့် သက်တောင့်သက်သာရှိမှုကို အပြည့်အဝ ပေးစွမ်းနိုင်ပါသည်။",
+                "feat-1": "ခန္ဓာကိုယ် ကျောရိုးတည်ဆောက်ပုံနှင့် ကိုက်ညီအောင် ပြုလုပ်ထားသဖြင့် ကျောရိုးကို ကာကွယ်ပေးသည်။",
+                "feat-2": "အဆိပ်အတောက်ကင်းစင်သော (BPA Free) ပစ္စည်းများကိုသာ အသုံးပြုထားသဖြင့် စိတ်ချရပါသည်။",
+                "feat-3": "အလွန်ပေါ့ပါးသော တည်ဆောက်ပုံကြောင့် လွယ်ကူစွာ သယ်ဆောင်သွားနိုင်သည်။",
+                "feat-4": "ခိုင်ခံ့ပြီး တာရှည်ခံသော အရည်အသွေးရှိသဖြင့် ရေရှည်အသုံးပြုနိုင်ပါသည်။",
+                "feat-5": "ကလေးငယ်များအတွက် အထူးအဆင်ပြေစေမည့် အသေးစိတ်ဒီဇိုင်းများ ထည့်သွင်းထားသည်။",
+                "prod-tag": "ထုတ်ကုန်များစုစည်းမှု", "prod-title": "ပရီမီယံ ထုတ်ကုန်များ", "prod-subtitle": "ကလေးများအတွက် အထူးထုတ်လုပ်ထားသော VEST ၏ အကောင်းဆုံးကျောင်းသုံးပစ္စည်းများကို လေ့လာလိုက်ပါ။",
+                "prod-more": "ထုတ်ကုန်အားလုံးကြည့်ရန်", "prod-less": "ပြန်ခေါက်ရန်",
+                "form-tag": "B2B လက်ကားကဏ္ဍ", "form-title": "လက်လီမိတ်ဖက် ဖြစ်လာရန်", "form-subtitle": "VEST ၏ လက်လီရောင်းချသူ ဖြစ်လာရန် စိတ်ဝင်စားပါသလား။ အောက်ပါပုံစံကို ဖြည့်စွက်ပေးပါက ကျွန်ုပ်တို့၏အဖွဲ့မှ မကြာမီ ဆက်သွယ်ပေးပါမည်။",
+                "lbl-shop": "ဆိုင်အမည် *", "lbl-name": "ဆက်သွယ်ရမည့်သူ *", "lbl-phone": "ဖုန်း / Viber နံပါတ် *", "lbl-city": "မြို့ *", "btn-submit": "မိတ်ဖက်လျှောက်လွှာတင်ရန်",
+                "ipt-shop": "ဆိုင်အမည်ကို ထည့်သွင်းပါ", "ipt-name": "လူကြီးမင်း၏ အမည်အပြည့်အစုံ", "ipt-phone": "ဆက်သွယ်ရမည့် ဖုန်း သို့မဟုတ် Viber", "ipt-city": "ဥပမာ - ရန်ကုန်၊ မန္တလေး",
+                "form-sending": "တင်နေသည်…", "form-error": "လိုအပ်သော အကွက်အားလုံးကို ဖြည့်သွင်းပေးပါ။", "form-error-net": "ကွန်ရက်ချို့ယွင်းမှုကြောင့် မအောင်မြင်ပါ။ Viber သို့မဟုတ် ဖုန်းဖြင့် တိုက်ရိုက်ဆက်သွယ်ပါ။",
+                "form-success-title": "သင့်လျှောက်လွှာကို လက်ခံရရှိပါပြီ!", "form-success-desc": "VEST တရားဝင်ဖြန့်ဖြူးရေးအဖွဲ့မှ မကြာမီ ဆက်သွယ်ပေးပါမည်။", "form-viber-btn": "Viber ဖြင့် ချက်ချင်းဆက်သွယ်ရန်",
+                "footer-desc": "Evergrow Myanmar သည် နိုင်ငံတကာ ပရီမီယံ ကလေးအမှတ်တံဆိပ် VEST ၏ မြန်မာနိုင်ငံရှိ တရားဝင် တစ်ဦးတည်းကိုယ်စားလှယ် ဖြစ်သည်။ ကလေးငယ်များနှင့် မိသားစုများအတွက် ဘေးကင်းစိတ်ချရသော ထုတ်ကုန်များကို ပံ့ပိုးပေးနေပါသည်။",
+                "footer-ch": "တရားဝင်လမ်းကြောင်းများ", "footer-strat-title": "အမှတ်တံဆိပ်မဟာဗျူဟာ", "footer-strat-desc": "တရားဝင်ကိုယ်စားလှယ်ဖြစ်မှုအပေါ် ယုံကြည်မှုရရှိစေရန်နှင့် Google Search တွင် ထိပ်တန်းနေရာရရှိစေရန် အထူးအလေးထားပါသည်။",
+                "footer-qr": "Facebook တွင် ကျွန်ုပ်တို့ကို စကင်ဖတ်၍ စောင့်ကြည့်ပါ", "footer-qr-wechat": "WeChat တွင် ကျွန်ုပ်တို့ကို စကင်ဖတ်၍ ပေါင်းသင်းပါ"
+            }
+        };
+
+        // 2. \"关于我们\" 长文本多语言单独维护 (支持富文本 HTML 结构)
+        const aboutParagraphs = {
+            zh: `
+                <p><strong class="font-semibold text-slate-900">Evergrow Myanmar</strong> 创立于一个很简单的想法：希望为缅甸的孩子带来更优质、更安全、更实用的成长用品。</p>
+                <p>作为父母，我们知道孩子每天背着书包上学、带着水杯出门、拿着饭盒去学校，这些看似普通的用品，其实陪伴着他们成长的每一天。因此，我们在选择产品时，不仅关注外观，更重视品质、安全性和使用体验。</p>
+                <p>经过严格筛选，我们将 <strong class="font-semibold text-indigo-600">VEST</strong> 引进缅甸，并成为 <strong class="font-semibold text-slate-900">VEST 在缅甸的官方独家代理商</strong>。我们相信，好的产品不只是让孩子喜欢，更能让家长放心。</p>
+                <p>今天，Evergrow Myanmar 为缅甸各地的家庭、学校和合作伙伴提供优质的书包、水杯、饭盒及儿童成长用品。我们希望通过每一件产品，为孩子的成长带来更多便利、快乐和自信。</p>
+                <p>未来，我们也将会继续寻找更多值得信赖的品牌和产品，陪伴孩子们健康成长。因为我们相信，每一个孩子都值得拥有更好的成长体验。</p>
+            `,
+            en: `
+                <p><strong class="font-semibold text-slate-900">Evergrow Myanmar</strong> was founded on a pure, simple vision: to introduce significantly higher quality, exceptionally safe, and practical lifestyle development products for growing children in Myanmar.</p>
+                <p>As devoted parents, we deeply understand that children carrying a school bag daily, packing water bottles, and opening lunch boxes are engaging with items that accompany their defining formative years. Thus, our selection matrix inspects rigorous baseline quality benchmarks first.</p>
+                <p>Following comprehensive standard audits, we proudly introduced <strong class="font-semibold text-indigo-600">VEST</strong> to the country, solidifying our rank as the <strong class="font-semibold text-slate-900">Official & Exclusive Distributor of VEST in Myanmar</strong>. We believe premium hardware provides absolute parental peace of mind.</p>
+                <p>Today, Evergrow Myanmar actively provisions premium ergonomic school bags, advanced insulation bottles, and food-safe lunch boxes to households, academies, and business enterprises across Myanmar.</p>
+                <p>Moving forward, we remain strictly committed to scaling our ecosystem with highly trustworthy international brands, ensuring every youth enjoys a brilliant growth experience.</p>
+            `,
+            mm: `
+                <p><strong class="font-semibold text-slate-900">Evergrow Myanmar</strong> ကို မြန်မာနိုင်ငံရှိ ကလေးငယ်များအတွက် ပိုမိုကောင်းမွန်ပြီး၊ ဘေးကင်းစိတ်ချရကာ အသုံးဝင်မည့် ကလေးသုံးပစ္စည်းများကို တင်သွင်းပေးလိုသည့် ရိုးရှင်းသော ရည်ရွယ်ချက်ဖြင့် စတင်တည်ထောင်ခဲ့ခြင်း ဖြစ်ပါသည်။</p>
+                <p>မိဘများပီပီ ကလေးများ နေ့စဉ်ကျောင်းတက်ရာတွင် အသုံးပြုသည့် ကျောင်းလွယ်အိတ်၊ ရေဘူးနှင့် ထမင်းဗူးများသည် ၎င်းတို့၏ ကြီးထွားမှုခရီးစဉ်တွင် နေ့စဉ်ထိတွေ့နေရသည့် အရေးကြီးပစ္စည်းများဖြစ်ကြောင်း နားလည်ပါသည်။ ထို့ကြောင့် ထုတ်ကုန်များကို ရွေးချယ်ရာတွင် ပုံစံတင်မကဘဲ အရည်အသွေးနှင့် ဘေးကင်းမှုကို အဓိကထား စစ်ဆေးပါသည်။</p>
+                <p><strong class="font-semibold text-indigo-600">VEST</strong> အမှတ်တံဆိပ်ကို မြန်မာနိုင်ငံသို့ တရားဝင်တင်သွင်းခဲ့ပြီး <strong class="font-semibold text-slate-900">မြန်မာနိုင်ငံ၏ တရားဝင် တစ်ဦးတည်းကိုယ်စားလှယ်</strong> ဖြစ်လာခဲ့ပါသည်။ အရည်အသွေးကောင်းမွန်သော ထုတ်ကုန်များသည် ကလေးများကို စိတ်ကျေနပ်စေရုံသာမက မိဘများကိုလည်း စိတ်အေးချမ်းသာမှု ပေးနိုင်သည်ဟု ယုံကြည်ပါသည်။</p>
+                <p>ယနေ့တွင် Evergrow Myanmar သည် မြန်မာနိုင်ငံအနှံ့ရှိ မိသားစုများ၊ ကျောင်းများနှင့် မိတ်ဖက်များထံသို့ အရည်အသွေးမြင့် ကျောင်းလွယ်အိတ်၊ ရေဘူး၊ ထမင်းဗူးများကို ဖြန့်ဖြူးပေးနေပြီး ကလေးငယ်များ ပျော်ရွှင်ယုံကြည်မှုရှိစေရန် ပံ့ပိုးပေးလျက်ရှိပါသည်။</p>
+            `
+        };
+
+        // 2.5 商品数据（约20个示例商品，含三语；真实上线时替换 title/desc/img 即可）
+        //  —— 分类、规格、适合年龄、描述按类别共享，减少重复、方便维护。
+        const cats = {
+            bag:    { zh: "儿童书包",   en: "School Bags",   mm: "ကျောင်းလွယ်အိတ်" },
+            bottle: { zh: "儿童水杯",   en: "Water Bottles", mm: "ရေဘူး" },
+            lunch:  { zh: "儿童饭盒",   en: "Lunch Boxes",   mm: "ထမင်းဗူး" },
+            acc:    { zh: "校园配件",   en: "Accessories",   mm: "ဆက်စပ်ပစ္စည်းများ" }
+        };
+        const specs = {
+            light:   { zh: "极致轻量",  en: "Lightweight",      mm: "ပေါ့ပါး" },
+            bpa:     { zh: "不含双酚A", en: "BPA Free",         mm: "BPA ကင်းစင်" },
+            eco:     { zh: "绿色环保",  en: "Eco-Friendly",     mm: "သဘာဝပတ်ဝန်းကျင်" },
+            prem:    { zh: "高端品质",  en: "Premium Quality",  mm: "ပရီမီယံ" },
+            durable: { zh: "坚固耐用",  en: "Durable",          mm: "ခိုင်ခံ့" },
+            ergo:    { zh: "护脊设计",  en: "Ergonomic",        mm: "ကျောရိုးကာကွယ်" }
+        };
+        const ages = {
+            a1: { zh: "适合年龄：6-12岁",     en: "Age: 6-12 Years",  mm: "အသက်: ၆-၁၂ နှစ်" },
+            a2: { zh: "适合年龄：所有年龄段", en: "Age: All Ages",    mm: "အသက်: အရွယ်မရွေး" },
+            a3: { zh: "适合年龄：3岁以上",    en: "Age: 3+ Years",    mm: "အသက်: ၃ နှစ်အထက်" }
+        };
+        // 各类别共享的产品描述（内嵌 SEO 关键词）
+        const descs = {
+            bag:    { zh: "VEST 护脊书包，人体工学设计有效保护脊椎，缅甸学生书包首选。", en: "Premium VEST School Bag & Kids Backpack Myanmar, ergonomic design for healthy back development.", mm: "ကျောရိုးကျန်းမာရေးအတွက် ဒီဇိုင်းထုတ်ထားသော VEST ကျောင်းလွယ်အိတ်။" },
+            bottle: { zh: "VEST 安全水杯，不含双酚A，完美贴合儿童日常校园与户外补水需求。", en: "BPA Free VEST Water Bottle, safe premium material tailored perfectly for kids in Myanmar.", mm: "BPA ကင်းစင်ပြီး ကလေးများအတွက် ဘေးကင်းသော VEST ရေဘူး။" },
+            lunch:  { zh: "VEST 便携饭盒，强效防漏分格设计，长效保持食物新鲜安全。", en: "VEST Lunch Box with leakproof compartments keeping food fresh, safe and BPA free.", mm: "အစာများ လတ်ဆတ်ဘေးကင်းစေသော အကန့်ခွဲ VEST ထမင်းဗူး။" },
+            acc:    { zh: "VEST 高品质校园配件，补全完美的整套高端开学装备。", en: "Premium VEST school accessories completing the ultimate Kids school gear in Myanmar.", mm: "ကျောင်းသုံးပစ္စည်းများ ပြည့်စုံစေသော VEST ဆက်စပ်ပစ္စည်းများ။" }
+        };
+        // 类别配图（SEO 友好；真实上线请替换为产品高清图）
+        const catImg = {
+            bag:    "https://ozhouse.oss-ap-southeast-1.aliyuncs.com/image/2026022-1.jpg",
+            bottle: "https://ozhouse.oss-ap-southeast-1.aliyuncs.com/image/20260622-2.jpg",
+            lunch:  "https://ozhouse.oss-ap-southeast-1.aliyuncs.com/image/20260622-3.jpg",
+            acc:    "https://ozhouse.oss-ap-southeast-1.aliyuncs.com/image/20260622-4.jpg"
+        };
+        // 每个商品：所属类别、三语标题、规格、适合年龄（描述/配图取自类别）
+        const products = [
+            // School Bags
+            { cat: "bag", spec: "ergo",    age: "a1", title: { zh: "VEST 护脊书包 Pro",   en: "VEST School Bag Pro",      mm: "VEST ကျောင်းလွယ်အိတ် Pro" } },
+            { cat: "bag", spec: "light",   age: "a1", title: { zh: "VEST 轻量书包 Lite",   en: "VEST Backpack Lite",       mm: "VEST ကျောင်းလွယ်အိတ် Lite" } },
+            { cat: "bag", spec: "durable", age: "a1", title: { zh: "VEST 防泼水书包",      en: "VEST Waterproof Backpack", mm: "VEST ရေစိုခံ ကျောင်းလွယ်အိတ်" } },
+            { cat: "bag", spec: "ergo",    age: "a2", title: { zh: "VEST 减负护脊书包",    en: "VEST Ergonomic School Bag", mm: "VEST ကျောရိုးကာ ကျောင်းလွယ်အိတ်" } },
+            { cat: "bag", spec: "prem",    age: "a1", title: { zh: "VEST 高端书包 Max",    en: "VEST School Bag Max",      mm: "VEST ကျောင်းလွယ်အိတ် Max" } },
+            // Water Bottles
+            { cat: "bottle", spec: "bpa",     age: "a2", title: { zh: "VEST 安全水杯 500ml", en: "VEST Water Bottle 500ml",  mm: "VEST ရေဘူး 500ml" } },
+            { cat: "bottle", spec: "bpa",     age: "a3", title: { zh: "VEST 吸管水杯",      en: "VEST Straw Water Bottle",  mm: "VEST ပိုက်ရေဘူး" } },
+            { cat: "bottle", spec: "durable", age: "a2", title: { zh: "VEST 保温水杯",      en: "VEST Insulated Bottle",    mm: "VEST အပူထိန်းရေဘူး" } },
+            { cat: "bottle", spec: "eco",     age: "a2", title: { zh: "VEST 运动水杯",      en: "VEST Sports Water Bottle", mm: "VEST အားကစားရေဘူး" } },
+            { cat: "bottle", spec: "light",   age: "a3", title: { zh: "VEST 迷你水杯",      en: "VEST Mini Water Bottle",   mm: "VEST မီနီရေဘူး" } },
+            // Lunch Boxes
+            { cat: "lunch", spec: "eco",     age: "a3", title: { zh: "VEST 分格饭盒",      en: "VEST Lunch Box",           mm: "VEST ထမင်းဗူး" } },
+            { cat: "lunch", spec: "durable", age: "a3", title: { zh: "VEST 保温饭盒",      en: "VEST Thermal Lunch Box",   mm: "VEST အပူထိန်းထမင်းဗူး" } },
+            { cat: "lunch", spec: "bpa",     age: "a2", title: { zh: "VEST 双层饭盒",      en: "VEST 2-Tier Lunch Box",    mm: "VEST ၂ထပ်ထမင်းဗူး" } },
+            { cat: "lunch", spec: "eco",     age: "a3", title: { zh: "VEST 便携餐盒套装",  en: "VEST Lunch Box Set",       mm: "VEST ထမင်းဗူးအစုံ" } },
+            { cat: "lunch", spec: "prem",    age: "a2", title: { zh: "VEST 高端餐盒 Max",  en: "VEST Lunch Box Max",       mm: "VEST ထမင်းဗူး Max" } },
+            // Accessories
+            { cat: "acc", spec: "prem",    age: "a2", title: { zh: "VEST 笔袋文具套装",   en: "VEST Pencil Case Set",     mm: "VEST ခဲတံအိတ်အစုံ" } },
+            { cat: "acc", spec: "durable", age: "a1", title: { zh: "VEST 雨衣书包罩",     en: "VEST Bag Rain Cover",      mm: "VEST အိတ်မိုးကာ" } },
+            { cat: "acc", spec: "light",   age: "a2", title: { zh: "VEST 校园挂件",       en: "VEST School Keychain",     mm: "VEST သော့ချိတ်" } },
+            { cat: "acc", spec: "eco",     age: "a2", title: { zh: "VEST 收纳袋套装",     en: "VEST Storage Pouch Set",   mm: "VEST သိမ်းဆည်းအိတ်" } },
+            { cat: "acc", spec: "prem",    age: "a2", title: { zh: "VEST 名牌挂卡",       en: "VEST Name Tag",            mm: "VEST အမည်ကတ်" } }
+        ];
+
+        // 2.6 渲染单张商品卡片（variant: 'scroll' 横向滚动 | 'grid' 完整网格）
+        function cardHTML(p, lang, variant) {
+            const widthClass = variant === 'scroll' ? 'snap-start shrink-0 w-72 sm:w-80' : '';
+            const cat = cats[p.cat][lang];
+            const title = p.title[lang];
+            const desc = descs[p.cat][lang];
+            const age = ages[p.age][lang];
+            const spec = specs[p.spec][lang];
+            const alt = `${p.title.en} - VEST Myanmar | ${cats[p.cat].en}`;
+            return `
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden group ${widthClass}">
+                    <div class="h-64 bg-slate-100 relative overflow-hidden">
+                        <img src="${catImg[p.cat]}" alt="${alt}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest">${cat}</span>
+                        <h3 class="text-xl font-bold text-slate-900 mt-2">${title}</h3>
+                        <p class="text-sm text-slate-500 mt-2 font-light">${desc}</p>
+                        <div class="mt-4 pt-4 border-t border-slate-100 flex justify-between text-xs text-slate-400 font-medium">
+                            <span>${age}</span>
+                            <span>${spec}</span>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        // 2.7 把所有商品渲染到「横向滚动区」与「完整网格」两个容器
+        function renderProducts(lang) {
+            // 横向区渲染两份卡片，配合自动滚动实现无缝循环
+            const scrollHTML = products.map(p => cardHTML(p, lang, 'scroll')).join('');
+            const gridHTML = products.map(p => cardHTML(p, lang, 'grid')).join('');
+            document.getElementById('product-scroll').innerHTML = scrollHTML + scrollHTML;
+            document.getElementById('product-grid').innerHTML = gridHTML;
+        }
+
+        // 2.8 根据展开状态更新"更多/收起"按钮文案与图标
+        let gridOpen = false;
+        let currentLang = 'en';
+        function updateMoreBtn(lang) {
+            document.getElementById('btn-more-text').textContent = langData[lang][gridOpen ? 'prod-less' : 'prod-more'];
+            document.getElementById('btn-more-icon').className = `fa-solid ${gridOpen ? 'fa-arrow-up' : 'fa-arrow-down'} text-xs`;
+        }
+
+        // 3. 核心语言切换执行函数
+        function switchLanguage(lang) {
+            // 设置网页的 lang 属性，便于 CSS 微调
+            document.documentElement.setAttribute('lang', lang);
+
+            // A. 更新常规的文本节点
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (langData[lang][key]) {
+                    el.innerHTML = langData[lang][key];
+                }
+            });
+
+            // B. 更新 页面 Title 标签
+            document.title = langData[lang]["meta-title"];
+
+            // C. 更新 "关于我们" 复杂富文本 HTML 内容
+            document.getElementById('about-content').innerHTML = aboutParagraphs[lang];
+
+            // D. 更新 表单 Inputs 的 Placeholders (占位符提示词)
+            document.getElementById('ipt-shop').placeholder = langData[lang]["ipt-shop"];
+            document.getElementById('ipt-name').placeholder = langData[lang]["ipt-name"];
+            document.getElementById('ipt-phone').placeholder = langData[lang]["ipt-phone"];
+            document.getElementById('ipt-city').placeholder = langData[lang]["ipt-city"];
+
+            // E. 同步两套切换器（桌面端与移动端）的选择状态
+            document.getElementById('lang-select').value = lang;
+            document.getElementById('lang-select-mobile').value = lang;
+
+            // F. 重新渲染商品（横向滚动区 + 完整网格）并刷新"更多"按钮文案
+            currentLang = lang;
+            renderProducts(lang);
+            updateMoreBtn(lang);
+        }
+
+        // 4. 事件监听控制中心
+        const desktopSelect = document.getElementById('lang-select');
+        const mobileSelect = document.getElementById('lang-select-mobile');
+
+        desktopSelect.addEventListener('change', (e) => {
+            switchLanguage(e.target.value);
+        });
+
+        mobileSelect.addEventListener('change', (e) => {
+            switchLanguage(e.target.value);
+        });
+
+        // "View All / Show Less"按钮：展开完整网格时隐藏上方滚动区，避免重复展示
+        const btnMore = document.getElementById('btn-more');
+        const gridWrap = document.getElementById('product-grid-wrap');
+        const scrollRegion = document.getElementById('scroll-region');
+        btnMore.addEventListener('click', () => {
+            gridOpen = !gridOpen;
+            updateMoreBtn(currentLang);
+            if (gridOpen) {
+                // 展开：网格缓缓展开 + 隐藏滚动区 + 暂停自动滚动
+                gridWrap.classList.add('open');
+                scrollRegion.classList.add('hidden');
+                autoPaused = true;
+                gridWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                // 收起：网格收起 + 恢复滚动区 + 继续自动滚动
+                gridWrap.classList.remove('open');
+                scrollRegion.classList.remove('hidden');
+                autoPaused = false;
+                document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        // 横向滚动区左右箭头（桌面端）
+        const productScroll = document.getElementById('product-scroll');
+        const scrollStep = () => Math.max(productScroll.clientWidth * 0.8, 320);
+        document.getElementById('scroll-left').addEventListener('click', () => {
+            productScroll.scrollBy({ left: -scrollStep(), behavior: 'smooth' });
+        });
+        document.getElementById('scroll-right').addEventListener('click', () => {
+            productScroll.scrollBy({ left: scrollStep(), behavior: 'smooth' });
+        });
+
+        // 商品横向区：自动滚动（无缝循环，悬停/触摸/切到后台时暂停）
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let autoPaused = false;
+        const AUTO_SPEED = 0.6; // 每帧像素，越大越快
+
+        function autoScrollStep() {
+            if (!autoPaused && productScroll.scrollWidth > productScroll.clientWidth) {
+                const half = productScroll.scrollWidth / 2; // 两份卡片，半程即一整组
+                productScroll.scrollLeft += AUTO_SPEED;
+                if (productScroll.scrollLeft >= half) {
+                    productScroll.scrollLeft -= half; // 无缝回卷
+                }
+            }
+            requestAnimationFrame(autoScrollStep);
+        }
+
+        if (!reduceMotion) {
+            // 悬停暂停（桌面）
+            productScroll.addEventListener('mouseenter', () => { autoPaused = true; });
+            productScroll.addEventListener('mouseleave', () => { autoPaused = false; });
+            // 触摸时暂停，松手 2 秒后恢复（移动端）
+            let resumeTimer;
+            productScroll.addEventListener('touchstart', () => { autoPaused = true; clearTimeout(resumeTimer); }, { passive: true });
+            productScroll.addEventListener('touchend', () => { resumeTimer = setTimeout(() => { autoPaused = false; }, 2000); }, { passive: true });
+            // 点箭头时短暂暂停，避免与自动滚动打架
+            [document.getElementById('scroll-left'), document.getElementById('scroll-right')].forEach(btn => {
+                btn.addEventListener('click', () => { autoPaused = true; clearTimeout(resumeTimer); resumeTimer = setTimeout(() => { autoPaused = false; }, 2000); });
+            });
+            // 切到其他标签页时暂停，回来再继续
+            document.addEventListener('visibilitychange', () => { autoPaused = document.hidden; });
+            requestAnimationFrame(autoScrollStep);
+        }
+
+        // 移动端菜单开关逻辑
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); });
+        });
+
+        // ============================================================
+        //  招商表单：提交到 Web3Forms（邮件通知）+ 聊天直达（无需自建后台）
+        //  —— 配置区：上线时只改这里 ——
+        // ============================================================
+        const LEAD_CONFIG = {
+            // ↓↓↓ Web3Forms 访问密钥：打开 https://web3forms.com → 输入你的收件邮箱 →
+            //     免费获取一串 Access Key（形如 a1b2c3d4-xxxx-xxxx-xxxx-xxxxxxxxxxxx）粘到这里
+            WEB3FORMS_KEY: '9ac4ca34-5f0a-4267-86bf-e3ff3cd3fb69',
+            // 聊天直达号码：09780080666 → 去掉开头的 0、加国家码 95 → 959780080666
+            VIBER_PHONE: '959780080666',
+            // 如果改用 WhatsApp 收单（支持预填留言），填国际格式，如 959780080666；留空则不用
+            WHATSAPP_PHONE: '',
+            // 如果改用 Facebook Messenger 收单，填主页用户名；留空则不用
+            MESSENGER: ''
+        };
+
+        const partnerForm = document.getElementById('partner-form');
+        const formSuccess = document.getElementById('form-success');
+        const formError = document.getElementById('form-error');
+        const btnSubmit = document.getElementById('btn-submit');
+        const successViber = document.getElementById('success-viber');
+
+        // 根据配置生成「聊天直达」链接（优先 WhatsApp > Messenger > Viber）
+        function buildChatLink(data) {
+            const text = [
+                'VEST Retail Partner / 合作申请',
+                'Shop / 店名: ' + (data.shop || ''),
+                'Contact / 联系人: ' + (data.name || ''),
+                'Phone / 电话: ' + (data.phone || ''),
+                'City / 城市: ' + (data.city || '')
+            ].join('\n');
+            if (LEAD_CONFIG.WHATSAPP_PHONE) {
+                return 'https://wa.me/' + LEAD_CONFIG.WHATSAPP_PHONE + '?text=' + encodeURIComponent(text);
+            }
+            if (LEAD_CONFIG.MESSENGER) {
+                return 'https://m.me/' + LEAD_CONFIG.MESSENGER;
+            }
+            return 'viber://chat?number=' + encodeURIComponent('+' + LEAD_CONFIG.VIBER_PHONE);
+        }
+
+        // 显示“提交成功”面板，并把聊天按钮指向带客户信息的链接
+        function showLeadSuccess(data) {
+            successViber.href = buildChatLink(data);
+            partnerForm.classList.add('hidden');
+            formSuccess.classList.remove('hidden');
+            formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        partnerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            formError.classList.add('hidden');
+
+            // 蜜罐被填 = 机器人，假装成功、丢弃数据
+            if (document.getElementById('hp-website').value) { showLeadSuccess({}); return; }
+
+            const data = {
+                shop: document.getElementById('ipt-shop').value.trim(),
+                name: document.getElementById('ipt-name').value.trim(),
+                phone: document.getElementById('ipt-phone').value.trim(),
+                city: document.getElementById('ipt-city').value.trim(),
+                lang: currentLang
+            };
+
+            // 前端必填校验
+            if (!data.shop || !data.name || !data.phone || !data.city) {
+                formError.textContent = langData[currentLang]['form-error'];
+                formError.classList.remove('hidden');
+                return;
+            }
+
+            // 未配置 Web3Forms 密钥 → 降级为“仅聊天直达”
+            if (!LEAD_CONFIG.WEB3FORMS_KEY) {
+                window.open(buildChatLink(data), '_blank');
+                showLeadSuccess(data);
+                return;
+            }
+
+            // 正常路径：提交到 Web3Forms（返回带 CORS 的 JSON，可准确判断成功/失败）
+            const originalLabel = btnSubmit.textContent;
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = langData[currentLang]['form-sending'];
+            try {
+                const res = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        access_key: LEAD_CONFIG.WEB3FORMS_KEY,
+                        subject: 'VEST 新招商线索 / New Retail Partner Lead',
+                        from_name: 'VEST Myanmar Website',
+                        '店名 Shop': data.shop,
+                        '联系人 Contact': data.name,
+                        '电话 Phone': data.phone,
+                        '城市 City': data.city,
+                        '语言 Lang': data.lang
+                    })
+                });
+                const json = await res.json();
+                if (json.success) {
+                    partnerForm.reset();
+                    showLeadSuccess(data);
+                } else {
+                    throw new Error(json.message || 'submit failed');
+                }
+            } catch (err) {
+                // 提交失败兜底：提示改用聊天/电话
+                formError.textContent = langData[currentLang]['form-error-net'];
+                formError.classList.remove('hidden');
+                successViber.href = buildChatLink(data);
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = originalLabel;
+            }
+        });
+
+        // 5. 初始化执行 (默认语言设为 英文 en，可按需改设为 'zh')
+        document.addEventListener('DOMContentLoaded', () => {
+            switchLanguage('en');
+        });
+    </script>
+</body>
+</html>
