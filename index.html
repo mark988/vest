@@ -6,8 +6,38 @@
     <title id="meta-title">VEST Myanmar | Official & Exclusive Distributor of VEST - School Bag Myanmar</title>
     <meta name="description" content="Official & Exclusive Distributor of VEST in Myanmar. Premium VEST School Bag, VEST Backpack, VEST Water Bottle, and VEST Lunch Box for Growing Kids. Find premium school bag Myanmar.">
     <meta name="keywords" content="VEST Myanmar, VEST School Bag, VEST Backpack, VEST Water Bottle, VEST Lunch Box, School Bag Myanmar, Kids Backpack Myanmar">
+
+    <!-- SEO：站点正式域名 evergrowvest.com -->
+    <link rel="canonical" href="https://evergrowvest.com/">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="author" content="Evergrow Myanmar">
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="geo.region" content="MM">
+    <meta name="geo.placename" content="Yangon, Mandalay, Myanmar">
+
+    <!-- Open Graph（Facebook / 链接分享预览） -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="VEST Myanmar | Evergrow Myanmar">
+    <meta property="og:title" content="VEST Myanmar | Official & Exclusive Distributor of VEST">
+    <meta property="og:description" content="Evergrow Myanmar is the Official & Exclusive Distributor of VEST in Myanmar — premium VEST School Bags, Backpacks, Water Bottles & Lunch Boxes for growing kids.">
+    <meta property="og:url" content="https://evergrowvest.com/">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=1200">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="my_MM">
+    <meta property="og:locale:alternate" content="zh_CN">
+
+    <!-- Twitter / X 卡片 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="VEST Myanmar | Official & Exclusive Distributor of VEST">
+    <meta name="twitter:description" content="Official & Exclusive Distributor of VEST in Myanmar — premium School Bags, Backpacks, Water Bottles & Lunch Boxes for kids.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=1200">
+
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind 预编译静态样式（由 src/input.css + tailwind.config.js 生成，改类名后需重新构建） -->
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -34,6 +64,64 @@
             font-family: 'Padauk', 'Pyidaungsu', sans-serif;
         }
     </style>
+
+    <!-- 结构化数据（JSON-LD）：供 Google 富结果与 AI 搜索引擎理解品牌、产品与联系方式 -->
+    <!-- ⚠️ 待确认：联系邮箱（现为 info@evergwomm.com，疑似笔误）；把 sameAs 的 facebook 换成真实主页 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": ["Organization", "Store"],
+          "@id": "https://evergrowvest.com/#org",
+          "name": "Evergrow Myanmar",
+          "alternateName": "VEST Myanmar",
+          "description": "Evergrow Myanmar is the Official & Exclusive Distributor of VEST in Myanmar, providing authentic premium VEST School Bags, Backpacks, Water Bottles, Lunch Boxes and school accessories for growing kids.",
+          "url": "https://evergrowvest.com/",
+          "telephone": "+959780080666",
+          "email": "info@evergwomm.com",
+          "slogan": "Official & Exclusive Distributor of VEST in Myanmar",
+          "areaServed": { "@type": "Country", "name": "Myanmar" },
+          "brand": { "@type": "Brand", "name": "VEST" },
+          "sameAs": ["https://www.facebook.com/"],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+959780080666",
+            "contactType": "sales",
+            "areaServed": "MM",
+            "availableLanguage": ["en", "my", "zh"]
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://evergrowvest.com/#website",
+          "url": "https://evergrowvest.com/",
+          "name": "VEST Myanmar | Official & Exclusive Distributor of VEST",
+          "inLanguage": "en",
+          "publisher": { "@id": "https://evergrowvest.com/#org" }
+        },
+        {
+          "@type": "ItemList",
+          "name": "VEST Product Collections",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "item": { "@type": "Product", "name": "VEST School Bag", "category": "School Bags", "brand": { "@type": "Brand", "name": "VEST" }, "description": "Premium ergonomic VEST School Bag and Kids Backpack Myanmar designed for healthy back development.", "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=600" } },
+            { "@type": "ListItem", "position": 2, "item": { "@type": "Product", "name": "VEST Backpack", "category": "Backpacks", "brand": { "@type": "Brand", "name": "VEST" }, "description": "Lightweight, durable VEST Backpack for school kids in Myanmar.", "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=600" } },
+            { "@type": "ListItem", "position": 3, "item": { "@type": "Product", "name": "VEST Water Bottle", "category": "Water Bottles", "brand": { "@type": "Brand", "name": "VEST" }, "description": "BPA Free VEST Water Bottle made from safe premium material, perfect for kids.", "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&q=80&w=600" } },
+            { "@type": "ListItem", "position": 4, "item": { "@type": "Product", "name": "VEST Lunch Box", "category": "Lunch Boxes", "brand": { "@type": "Brand", "name": "VEST" }, "description": "Leakproof VEST Lunch Box keeping food fresh and safe for school children.", "image": "https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&q=80&w=600" } }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            { "@type": "Question", "name": "Who is the official VEST distributor in Myanmar?", "acceptedAnswer": { "@type": "Answer", "text": "Evergrow Myanmar is the Official & Exclusive Distributor of VEST in Myanmar, offering authentic VEST School Bags, Backpacks, Water Bottles and Lunch Boxes nationwide." } },
+            { "@type": "Question", "name": "What products does VEST Myanmar offer?", "acceptedAnswer": { "@type": "Answer", "text": "VEST offers premium kids' school gear: VEST School Bags and Backpacks, VEST Water Bottles, VEST Lunch Boxes and school accessories — ergonomic, BPA-free, lightweight and durable." } },
+            { "@type": "Question", "name": "How can I buy VEST products or find a store in Myanmar?", "acceptedAnswer": { "@type": "Answer", "text": "Contact Evergrow Myanmar via Facebook (Evergrow Myanmar | Official & Exclusive Distributor of VEST), Phone & Viber 09780080666, or email. We serve families, schools and retailers across Myanmar including Yangon and Mandalay." } },
+            { "@type": "Question", "name": "How do I become a VEST retailer or wholesale partner?", "acceptedAnswer": { "@type": "Answer", "text": "Use the Become a Retail Partner form on this website. Submit your shop name, contact person, phone and city, and our official distribution team will contact you shortly." } }
+          ]
+        }
+      ]
+    }
+    </script>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased">
 
@@ -288,6 +376,33 @@
         </div>
     </section>
 
+    <section id="faq" class="py-24 bg-slate-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span data-i18n="faq-tag" class="text-xs font-bold tracking-widest uppercase text-indigo-600 block mb-3">FAQ</span>
+                <h2 data-i18n="faq-title" class="text-2xl md:text-4xl font-black text-slate-900 tracking-tight">Frequently Asked Questions</h2>
+            </div>
+            <div class="space-y-4">
+                <div class="bg-white border border-slate-100 rounded-2xl p-6 md:p-8 shadow-sm">
+                    <h3 data-i18n="faq-q1" class="font-bold text-slate-900 text-base md:text-lg mb-2">Who is the official VEST distributor in Myanmar?</h3>
+                    <p data-i18n="faq-a1" class="text-slate-500 font-light text-sm md:text-base leading-relaxed">Evergrow Myanmar is the Official &amp; Exclusive Distributor of VEST in Myanmar, offering authentic VEST School Bags, Backpacks, Water Bottles and Lunch Boxes nationwide.</p>
+                </div>
+                <div class="bg-white border border-slate-100 rounded-2xl p-6 md:p-8 shadow-sm">
+                    <h3 data-i18n="faq-q2" class="font-bold text-slate-900 text-base md:text-lg mb-2">What products does VEST Myanmar offer?</h3>
+                    <p data-i18n="faq-a2" class="text-slate-500 font-light text-sm md:text-base leading-relaxed">VEST offers premium kids' school gear: VEST School Bags and Backpacks, VEST Water Bottles, VEST Lunch Boxes and school accessories — ergonomic, BPA-free, lightweight and durable.</p>
+                </div>
+                <div class="bg-white border border-slate-100 rounded-2xl p-6 md:p-8 shadow-sm">
+                    <h3 data-i18n="faq-q3" class="font-bold text-slate-900 text-base md:text-lg mb-2">How can I buy VEST products or find a store in Myanmar?</h3>
+                    <p data-i18n="faq-a3" class="text-slate-500 font-light text-sm md:text-base leading-relaxed">Contact Evergrow Myanmar via Facebook (Evergrow Myanmar | Official &amp; Exclusive Distributor of VEST), Phone &amp; Viber 09780080666, or email. We serve families, schools and retailers across Myanmar including Yangon and Mandalay.</p>
+                </div>
+                <div class="bg-white border border-slate-100 rounded-2xl p-6 md:p-8 shadow-sm">
+                    <h3 data-i18n="faq-q4" class="font-bold text-slate-900 text-base md:text-lg mb-2">How do I become a VEST retailer or wholesale partner?</h3>
+                    <p data-i18n="faq-a4" class="text-slate-500 font-light text-sm md:text-base leading-relaxed">Use the Become a Retail Partner form on this website. Submit your shop name, contact person, phone and city, and our official distribution team will contact you shortly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer id="contact" class="bg-slate-900 text-slate-400 py-16 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
@@ -376,6 +491,11 @@
                 "ipt-shop": "请输入您的店名", "ipt-name": "您的全名", "ipt-phone": "有效的联系电话或 Viber", "ipt-city": "例如：仰光、曼德勒",
                 "form-sending": "提交中…", "form-error": "请完整填写所有必填项。", "form-error-net": "网络异常，提交失败。请改用 Viber 或电话直接联系我们。",
                 "form-success-title": "我们已收到您的申请！", "form-success-desc": "VEST 官方分销团队会尽快与您的店铺取得联系。", "form-viber-btn": "立即用 Viber 联系我们",
+                "faq-tag": "常见问题", "faq-title": "常见问题解答",
+                "faq-q1": "谁是 VEST 在缅甸的官方代理？", "faq-a1": "Evergrow Myanmar 是 VEST 在缅甸的官方独家代理商，面向全国提供正品 VEST 书包、双肩包、水杯和饭盒。",
+                "faq-q2": "VEST Myanmar 提供哪些产品？", "faq-a2": "VEST 提供优质儿童开学装备：VEST 书包与双肩包、VEST 水杯、VEST 饭盒及校园配件——符合人体工学、不含双酚A、轻量且耐用。",
+                "faq-q3": "如何购买 VEST 产品或在缅甸找到门店？", "faq-a3": "可通过 Facebook（Evergrow Myanmar | Official & Exclusive Distributor of VEST）、电话 / Viber 09780080666 或邮箱联系我们。我们服务缅甸各地（含仰光、曼德勒）的家庭、学校与零售商。",
+                "faq-q4": "如何成为 VEST 零售或批发合作伙伴？", "faq-a4": "填写本页的“零售伙伴加盟”表单，提交店名、联系人、电话和城市，我们的官方分销团队会尽快与您联系。",
                 "footer-desc": "Evergrow Myanmar 是国际高端儿童品牌 VEST 在缅甸的官方独家代理商。我们致力于为全国各地的家庭、学校带来高安全标准、高品质的产品。",
                 "footer-ch": "官方渠道", "footer-strat-title": "品牌与搜索排名战略", "footer-strat-desc": "重点专注于树立最权威的官方渠道形象，赢得消费者长效信任，并在 Google 搜索排名中保持强劲曝光。",
                 "footer-qr": "扫码关注我们的 Facebook 主页", "footer-qr-wechat": "扫码添加我们的微信"
@@ -406,6 +526,11 @@
                 "ipt-shop": "Enter your shop name", "ipt-name": "Your full name", "ipt-phone": "Active contact phone or Viber number", "ipt-city": "e.g., Yangon, Mandalay",
                 "form-sending": "Submitting…", "form-error": "Please fill in all required fields.", "form-error-net": "Network error, submission failed. Please contact us directly via Viber or phone.",
                 "form-success-title": "We've received your application!", "form-success-desc": "Our official VEST distribution team will contact your store shortly.", "form-viber-btn": "Contact us on Viber now",
+                "faq-tag": "FAQ", "faq-title": "Frequently Asked Questions",
+                "faq-q1": "Who is the official VEST distributor in Myanmar?", "faq-a1": "Evergrow Myanmar is the Official & Exclusive Distributor of VEST in Myanmar, offering authentic VEST School Bags, Backpacks, Water Bottles and Lunch Boxes nationwide.",
+                "faq-q2": "What products does VEST Myanmar offer?", "faq-a2": "VEST offers premium kids' school gear: VEST School Bags and Backpacks, VEST Water Bottles, VEST Lunch Boxes and school accessories — ergonomic, BPA-free, lightweight and durable.",
+                "faq-q3": "How can I buy VEST products or find a store in Myanmar?", "faq-a3": "Contact Evergrow Myanmar via Facebook (Evergrow Myanmar | Official & Exclusive Distributor of VEST), Phone & Viber 09780080666, or email. We serve families, schools and retailers across Myanmar including Yangon and Mandalay.",
+                "faq-q4": "How do I become a VEST retailer or wholesale partner?", "faq-a4": "Use the Become a Retail Partner form on this website. Submit your shop name, contact person, phone and city, and our official distribution team will contact you shortly.",
                 "footer-desc": "The Exclusive & Official Distributor of international premium kids brand VEST in Myanmar. Ensuring safety, quality, and exceptional experiences for families nationwide.",
                 "footer-ch": "Official Channels", "footer-strat-title": "Brand Strategy", "footer-strat-desc": "Focused heavily on reliable brand image representation, consumer trust, and superior high-ranking Google SEO visibility.",
                 "footer-qr": "Scan to follow us on Facebook", "footer-qr-wechat": "Scan to add us on WeChat"
@@ -436,6 +561,11 @@
                 "ipt-shop": "ဆိုင်အမည်ကို ထည့်သွင်းပါ", "ipt-name": "လူကြီးမင်း၏ အမည်အပြည့်အစုံ", "ipt-phone": "ဆက်သွယ်ရမည့် ဖုန်း သို့မဟုတ် Viber", "ipt-city": "ဥပမာ - ရန်ကုန်၊ မန္တလေး",
                 "form-sending": "တင်နေသည်…", "form-error": "လိုအပ်သော အကွက်အားလုံးကို ဖြည့်သွင်းပေးပါ။", "form-error-net": "ကွန်ရက်ချို့ယွင်းမှုကြောင့် မအောင်မြင်ပါ။ Viber သို့မဟုတ် ဖုန်းဖြင့် တိုက်ရိုက်ဆက်သွယ်ပါ။",
                 "form-success-title": "သင့်လျှောက်လွှာကို လက်ခံရရှိပါပြီ!", "form-success-desc": "VEST တရားဝင်ဖြန့်ဖြူးရေးအဖွဲ့မှ မကြာမီ ဆက်သွယ်ပေးပါမည်။", "form-viber-btn": "Viber ဖြင့် ချက်ချင်းဆက်သွယ်ရန်",
+                "faq-tag": "မေးခွန်းများ", "faq-title": "မေးလေ့ရှိသော မေးခွန်းများ",
+                "faq-q1": "မြန်မာနိုင်ငံရှိ VEST ၏ တရားဝင်ကိုယ်စားလှယ်က ဘယ်သူလဲ။", "faq-a1": "Evergrow Myanmar သည် မြန်မာနိုင်ငံရှိ VEST ၏ တရားဝင် တစ်ဦးတည်းကိုယ်စားလှယ် ဖြစ်ပြီး VEST ကျောင်းလွယ်အိတ်၊ ရေဘူး၊ ထမင်းဗူး အစစ်အမှန်များကို တစ်နိုင်ငံလုံး ဖြန့်ဖြူးပေးပါသည်။",
+                "faq-q2": "VEST Myanmar တွင် မည်သည့်ထုတ်ကုန်များ ရှိပါသလဲ။", "faq-a2": "VEST တွင် အရည်အသွေးမြင့် ကလေးကျောင်းသုံးပစ္စည်းများ ရှိသည် — VEST ကျောင်းလွယ်အိတ်များ၊ ရေဘူးများ၊ ထမင်းဗူးများနှင့် ဆက်စပ်ပစ္စည်းများ — ကျောရိုးကာကွယ်၊ BPA ကင်းစင်၊ ပေါ့ပါးပြီး ခိုင်ခံ့ပါသည်။",
+                "faq-q3": "VEST ထုတ်ကုန်များကို မြန်မာတွင် မည်သို့ ဝယ်ယူနိုင်မလဲ။", "faq-a3": "Facebook (Evergrow Myanmar | Official & Exclusive Distributor of VEST)၊ ဖုန်း / Viber 09780080666 သို့မဟုတ် အီးမေးလ်ဖြင့် ဆက်သွယ်နိုင်ပါသည်။ ရန်ကုန်၊ မန္တလေး အပါအဝင် မြန်မာတစ်နိုင်ငံလုံးရှိ မိသားစုများ၊ ကျောင်းများနှင့် လက်လီဆိုင်များကို ဝန်ဆောင်မှုပေးပါသည်။",
+                "faq-q4": "VEST လက်လီ သို့မဟုတ် လက်ကားမိတ်ဖက် ဖြစ်လာရန် မည်သို့လုပ်ရမလဲ။", "faq-a4": "ဤဝက်ဘ်ဆိုက်ရှိ Become a Retail Partner ပုံစံကို ဖြည့်ပါ။ ဆိုင်အမည်၊ ဆက်သွယ်သူ၊ ဖုန်းနှင့် မြို့ကို ဖြည့်ပေးပါက ကျွန်ုပ်တို့၏ တရားဝင်အဖွဲ့မှ မကြာမီ ဆက်သွယ်ပေးပါမည်။",
                 "footer-desc": "Evergrow Myanmar သည် နိုင်ငံတကာ ပရီမီယံ ကလေးအမှတ်တံဆိပ် VEST ၏ မြန်မာနိုင်ငံရှိ တရားဝင် တစ်ဦးတည်းကိုယ်စားလှယ် ဖြစ်သည်။ ကလေးငယ်များနှင့် မိသားစုများအတွက် ဘေးကင်းစိတ်ချရသော ထုတ်ကုန်များကို ပံ့ပိုးပေးနေပါသည်။",
                 "footer-ch": "တရားဝင်လမ်းကြောင်းများ", "footer-strat-title": "အမှတ်တံဆိပ်မဟာဗျူဟာ", "footer-strat-desc": "တရားဝင်ကိုယ်စားလှယ်ဖြစ်မှုအပေါ် ယုံကြည်မှုရရှိစေရန်နှင့် Google Search တွင် ထိပ်တန်းနေရာရရှိစေရန် အထူးအလေးထားပါသည်။",
                 "footer-qr": "Facebook တွင် ကျွန်ုပ်တို့ကို စကင်ဖတ်၍ စောင့်ကြည့်ပါ", "footer-qr-wechat": "WeChat တွင် ကျွန်ုပ်တို့ကို စကင်ဖတ်၍ ပေါင်းသင်းပါ"
