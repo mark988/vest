@@ -54,10 +54,32 @@
         }
         #product-grid-wrap.open { grid-template-rows: 1fr; opacity: 1; }
         #product-grid-wrap > .grid-inner { overflow: hidden; min-height: 0; }
+        .product-card-button { cursor: pointer; display: block; text-align: left; width: 100%; }
+        /* 商品详情弹窗（图片画廊 + 信息） */
+        .pd-modal { position: fixed; inset: 0; z-index: 80; display: none; align-items: center; justify-content: center; padding: 1rem; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); }
+        .pd-modal.open { display: flex; animation: pd-fade .2s ease; }
+        @keyframes pd-fade { from { opacity: 0; transform: scale(.98); } to { opacity: 1; transform: none; } }
+        .pd-panel { position: relative; width: min(1000px, 100%); max-height: 92vh; border-radius: 1.25rem; background: #fff; box-shadow: 0 30px 90px rgba(15, 23, 42, 0.4); overflow: hidden; display: flex; flex-direction: column; }
+        .pd-body { display: grid; grid-template-columns: 1fr; overflow: auto; }
+        @media (min-width: 820px) { .pd-body { grid-template-columns: minmax(0, 440px) 1fr; } }
+        .pd-gallery { background: #f1f5f9; padding: 1.25rem; display: flex; flex-direction: column; gap: .75rem; }
+        .pd-main { aspect-ratio: 1 / 1; background: #fff; border: 1px solid #e2e8f0; border-radius: 1rem; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .pd-main img { width: 100%; height: 100%; object-fit: contain; }
+        .pd-thumbs { display: flex; gap: .5rem; flex-wrap: wrap; }
+        .pd-thumb { width: 56px; height: 56px; border-radius: .6rem; overflow: hidden; border: 2px solid transparent; cursor: pointer; padding: 0; background: #fff; transition: border-color .15s; }
+        .pd-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .pd-thumb.active { border-color: #4f46e5; }
+        .pd-info { padding: 1.5rem; }
+        @media (min-width: 820px) { .pd-info { padding: 2rem; } }
+        .pd-field { border: 1px solid #e2e8f0; border-radius: .85rem; padding: .9rem 1.1rem; background: #f8fafc; }
+        .pd-field + .pd-field { margin-top: .7rem; }
+        .pd-value { white-space: pre-wrap; word-break: break-word; }
+        .pd-close { position: absolute; top: .85rem; right: .85rem; z-index: 5; width: 2.5rem; height: 2.5rem; border-radius: 9999px; background: #fff; color: #475569; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(15, 23, 42, .12); cursor: pointer; }
+        .pd-close:hover { color: #4f46e5; }
         /* 导航当前栏目高亮 */
         .nav-active { color: #4f46e5 !important; font-weight: 600; }
         .hero-bg {
-            background: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=1920') center/cover no-repeat;
+            background: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.85)), url('https://ozhouse.oss-ap-southeast-1.aliyuncs.com/image/vest-background.png?auto=format&fit=crop&q=80&w=1920') center/cover no-repeat;
         }
         /* 针对缅甸语微调字体，防止排版错乱 */
         :lang(mm) {
@@ -320,6 +342,13 @@
             </div>
         </div>
     </section>
+
+    <div id="pd-modal" class="pd-modal" aria-hidden="true">
+        <div class="pd-panel" role="dialog" aria-modal="true" aria-labelledby="pd-title">
+            <button id="pd-close" class="pd-close" aria-label="Close product detail"><i class="fa-solid fa-xmark"></i></button>
+            <div id="pd-body" class="pd-body"></div>
+        </div>
+    </div>
 
     <section id="partners" class="py-24 bg-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -596,93 +625,129 @@
             `
         };
 
-        // 2.5 商品数据（约20个示例商品，含三语；真实上线时替换 title/desc/img 即可）
-        //  —— 分类、规格、适合年龄、描述按类别共享，减少重复、方便维护。
+        // 2.5 商品数据（来自 “Vest for website.xlsx”，名称与列内容按文档原文展示）
         const cats = {
-            bag:    { zh: "儿童书包",   en: "School Bags",   mm: "ကျောင်းလွယ်အိတ်" },
-            bottle: { zh: "儿童水杯",   en: "Water Bottles", mm: "ရေဘူး" },
-            lunch:  { zh: "儿童饭盒",   en: "Lunch Boxes",   mm: "ထမင်းဗူး" },
-            acc:    { zh: "校园配件",   en: "Accessories",   mm: "ဆက်စပ်ပစ္စည်းများ" }
+            bag:    { zh: "背包包袋", en: "Bags",          mm: "အိတ်များ" },
+            bottle: { zh: "儿童水杯", en: "Water Bottles", mm: "ရေဘူး" },
+            lunch:  { zh: "饭盒餐包", en: "Lunch Boxes",   mm: "ထမင်းဗူး" },
+            acc:    { zh: "文具配件", en: "Accessories",   mm: "ဆက်စပ်ပစ္စည်း" }
         };
-        const specs = {
-            light:   { zh: "极致轻量",  en: "Lightweight",      mm: "ပေါ့ပါး" },
-            bpa:     { zh: "不含双酚A", en: "BPA Free",         mm: "BPA ကင်းစင်" },
-            eco:     { zh: "绿色环保",  en: "Eco-Friendly",     mm: "သဘာဝပတ်ဝန်းကျင်" },
-            prem:    { zh: "高端品质",  en: "Premium Quality",  mm: "ပရီမီယံ" },
-            durable: { zh: "坚固耐用",  en: "Durable",          mm: "ခိုင်ခံ့" },
-            ergo:    { zh: "护脊设计",  en: "Ergonomic",        mm: "ကျောရိုးကာကွယ်" }
+        const catIcon = { bag: "fa-bag-shopping", bottle: "fa-bottle-water", lunch: "fa-bowl-food", acc: "fa-pencil" };
+        const detailLabels = {
+            item: "ITEM NO.型号",
+            name: "NAME名称",
+            desc: "描述",
+            details: "details",
+            size: "specification尺寸",
+            style: "Style / Color"
         };
-        const ages = {
-            a1: { zh: "适合年龄：6-12岁",     en: "Age: 6-12 Years",  mm: "အသက်: ၆-၁၂ နှစ်" },
-            a2: { zh: "适合年龄：所有年龄段", en: "Age: All Ages",    mm: "အသက်: အရွယ်မရွေး" },
-            a3: { zh: "适合年龄：3岁以上",    en: "Age: 3+ Years",    mm: "အသက်: ၃ နှစ်အထက်" }
+        const uiLabels = {
+            view:    { zh: "查看详情", en: "View details", mm: "အသေးစိတ်ကြည့်ရန်" },
+            inquire: { zh: "立即咨询 / 订购", en: "Inquire on Viber", mm: "Viber ဖြင့် စုံစမ်းရန်" }
         };
-        // 各类别共享的产品描述（内嵌 SEO 关键词）
-        const descs = {
-            bag:    { zh: "VEST 护脊书包，人体工学设计有效保护脊椎，缅甸学生书包首选。", en: "Premium VEST School Bag & Kids Backpack Myanmar, ergonomic design for healthy back development.", mm: "ကျောရိုးကျန်းမာရေးအတွက် ဒီဇိုင်းထုတ်ထားသော VEST ကျောင်းလွယ်အိတ်။" },
-            bottle: { zh: "VEST 安全水杯，不含双酚A，完美贴合儿童日常校园与户外补水需求。", en: "BPA Free VEST Water Bottle, safe premium material tailored perfectly for kids in Myanmar.", mm: "BPA ကင်းစင်ပြီး ကလေးများအတွက် ဘေးကင်းသော VEST ရေဘူး။" },
-            lunch:  { zh: "VEST 便携饭盒，强效防漏分格设计，长效保持食物新鲜安全。", en: "VEST Lunch Box with leakproof compartments keeping food fresh, safe and BPA free.", mm: "အစာများ လတ်ဆတ်ဘေးကင်းစေသော အကန့်ခွဲ VEST ထမင်းဗူး။" },
-            acc:    { zh: "VEST 高品质校园配件，补全完美的整套高端开学装备。", en: "Premium VEST school accessories completing the ultimate Kids school gear in Myanmar.", mm: "ကျောင်းသုံးပစ္စည်းများ ပြည့်စုံစေသော VEST ဆက်စပ်ပစ္စည်းများ။" }
-        };
-        // 类别配图（SEO 友好；真实上线请替换为产品高清图）
-        const catImg = {
-            bag:    "https://ozhouse.oss-ap-southeast-1.aliyuncs.com/image/2026022-1.jpg",
-            bottle: "https://ozhouse.oss-ap-southeast-1.aliyuncs.com/image/20260622-2.jpg",
-            lunch:  "https://ozhouse.oss-ap-southeast-1.aliyuncs.com/image/20260622-3.jpg",
-            acc:    "https://ozhouse.oss-ap-southeast-1.aliyuncs.com/image/20260622-4.jpg"
-        };
-        // 每个商品：所属类别、三语标题、规格、适合年龄（描述/配图取自类别）
         const products = [
-            // School Bags
-            { cat: "bag", spec: "ergo",    age: "a1", title: { zh: "VEST 护脊书包 Pro",   en: "VEST School Bag Pro",      mm: "VEST ကျောင်းလွယ်အိတ် Pro" } },
-            { cat: "bag", spec: "light",   age: "a1", title: { zh: "VEST 轻量书包 Lite",   en: "VEST Backpack Lite",       mm: "VEST ကျောင်းလွယ်အိတ် Lite" } },
-            { cat: "bag", spec: "durable", age: "a1", title: { zh: "VEST 防泼水书包",      en: "VEST Waterproof Backpack", mm: "VEST ရေစိုခံ ကျောင်းလွယ်အိတ်" } },
-            { cat: "bag", spec: "ergo",    age: "a2", title: { zh: "VEST 减负护脊书包",    en: "VEST Ergonomic School Bag", mm: "VEST ကျောရိုးကာ ကျောင်းလွယ်အိတ်" } },
-            { cat: "bag", spec: "prem",    age: "a1", title: { zh: "VEST 高端书包 Max",    en: "VEST School Bag Max",      mm: "VEST ကျောင်းလွယ်အိတ် Max" } },
-            // Water Bottles
-            { cat: "bottle", spec: "bpa",     age: "a2", title: { zh: "VEST 安全水杯 500ml", en: "VEST Water Bottle 500ml",  mm: "VEST ရေဘူး 500ml" } },
-            { cat: "bottle", spec: "bpa",     age: "a3", title: { zh: "VEST 吸管水杯",      en: "VEST Straw Water Bottle",  mm: "VEST ပိုက်ရေဘူး" } },
-            { cat: "bottle", spec: "durable", age: "a2", title: { zh: "VEST 保温水杯",      en: "VEST Insulated Bottle",    mm: "VEST အပူထိန်းရေဘူး" } },
-            { cat: "bottle", spec: "eco",     age: "a2", title: { zh: "VEST 运动水杯",      en: "VEST Sports Water Bottle", mm: "VEST အားကစားရေဘူး" } },
-            { cat: "bottle", spec: "light",   age: "a3", title: { zh: "VEST 迷你水杯",      en: "VEST Mini Water Bottle",   mm: "VEST မီနီရေဘူး" } },
-            // Lunch Boxes
-            { cat: "lunch", spec: "eco",     age: "a3", title: { zh: "VEST 分格饭盒",      en: "VEST Lunch Box",           mm: "VEST ထမင်းဗူး" } },
-            { cat: "lunch", spec: "durable", age: "a3", title: { zh: "VEST 保温饭盒",      en: "VEST Thermal Lunch Box",   mm: "VEST အပူထိန်းထမင်းဗူး" } },
-            { cat: "lunch", spec: "bpa",     age: "a2", title: { zh: "VEST 双层饭盒",      en: "VEST 2-Tier Lunch Box",    mm: "VEST ၂ထပ်ထမင်းဗူး" } },
-            { cat: "lunch", spec: "eco",     age: "a3", title: { zh: "VEST 便携餐盒套装",  en: "VEST Lunch Box Set",       mm: "VEST ထမင်းဗူးအစုံ" } },
-            { cat: "lunch", spec: "prem",    age: "a2", title: { zh: "VEST 高端餐盒 Max",  en: "VEST Lunch Box Max",       mm: "VEST ထမင်းဗူး Max" } },
-            // Accessories
-            { cat: "acc", spec: "prem",    age: "a2", title: { zh: "VEST 笔袋文具套装",   en: "VEST Pencil Case Set",     mm: "VEST ခဲတံအိတ်အစုံ" } },
-            { cat: "acc", spec: "durable", age: "a1", title: { zh: "VEST 雨衣书包罩",     en: "VEST Bag Rain Cover",      mm: "VEST အိတ်မိုးကာ" } },
-            { cat: "acc", spec: "light",   age: "a2", title: { zh: "VEST 校园挂件",       en: "VEST School Keychain",     mm: "VEST သော့ချိတ်" } },
-            { cat: "acc", spec: "eco",     age: "a2", title: { zh: "VEST 收纳袋套装",     en: "VEST Storage Pouch Set",   mm: "VEST သိမ်းဆည်းအိတ်" } },
-            { cat: "acc", spec: "prem",    age: "a2", title: { zh: "VEST 名牌挂卡",       en: "VEST Name Tag",            mm: "VEST အမည်ကတ်" } }
+            { id: "p1", cat: "bag", item: "U2116+\nU2117", name: "trolley backpack\n+lunch bag with name card 拉杆背包", desc: "材质: 100%涤纶(900D牛津布)\n套装包含:\n拉杆背包\n保温午餐包\n尺寸\n拉杆背包: 47.5(长)×31(高)×15(宽)厘米\n午餐包+名字卡: 24.5(长)×18.5(高)×7.3(宽)厘米\n包装方式\n每套装透明OPP袋+吊牌包装", details: "Material : 100% Polyester (900D Oxford fabric)\nSet Includes:\n1 x Trolley Backpack\n1 x Insulated Lunch Bag\nPackaging\nEach set in transparent OPP bag with header card", size: "Trolley Backpack: 47.5(L) × 31(H) × 15(W) cm\nLunch Bag with name card : 24.5(L) × 18.5(H) × 7.3(W) cm", style: "butterfly翅膀unicorn 208,  Girl Girl girl 184 , mermaid  30 ,  shark  396,  fun fairy  527, digger  830, unicornunicorn 269" },
+            { id: "p2", cat: "bag", item: "U2055", name: "大背包\nbig backpack", desc: "3D 护脊背包\n面料：防水斜纹布\n材质\n防水斜纹布\n立体透气背板（透气海绵）\n尺寸\n28(L)×38(H)×13(W) cm\n11.0×15.0×5.1 inches", details: "3D Ergonomic Backpack with Spine Protection\nMaterial\nWaterproof Twill Fabric\n3D Ventilated Back Panel\nAdjustable Sternum Strap\n11.0×15.0×5.1 inches", size: "28(L)×38(H)×13(W) cm", style: "catA 578/catB636/flowerunicorn 137/butterfly489/shark 418/monster219/dino770/blackfootball266/space442/大头unicorn287" },
+            { id: "p3", cat: "bag", item: "U2065", name: "大号背包\nbig-backpack", desc: "大容量背包\n尺寸：42(长)×30(高)×15(宽)厘米 / 16.5×11.8×5.9 英寸\n材质：300D 涤纶印花层 + 600D 涤纶基底 + PU 涂层\n加宽 S 型肩带（肩部压强减少 35%）\n背部透气网格（快速排汗）", details: "High-Capacity Backpack\n16.5×11.8×5.9 inches\nMaterial: 300D Polyester + 600D Polyester base + PU coating\nErgonomic features:\n• Wide S-curve shoulder straps (reduces shoulder pressure)\n• 3D ventilated back panel (enhanced airflow)", size: "42(L)×30(H)×15(W) cm", style: "flowerunicorn299/purpleunicorn932/catA 548/girl639/beauty334/shark 844/Rocket524/monster33/game544/catb 213 /eyelashpink unicorn261" },
+            { id: "p4", cat: "bag", item: "U2081-1", name: "大号背包\nbackpack +pencil bag", desc: "背包\n材质：300D 涤纶（外层印花面料）+ 600D 涤纶基底（高密度耐磨层）+ PU\n尺寸：28(L)×39(H)×15(W) cm / 11.0×15.4×5.9 英寸", details: "Backpack (300D)\nSize: 28*39*15 cm", size: "28*39*15", style: "pink unicornE440/butterfly392/funicorn268/catc92/flowercat1141/Fancy Dino345/mermaid 589" },
+            { id: "p5", cat: "bag", item: "U2034", name: "中号unicorn角兽旅行包\nmiddle size traveling bag", desc: "旅行包-中号\n面料：防水斜纹布\n尺寸：22*19*41 cm", details: "Travel Bag - medium\n8 design\nFabric: Waterproof twill\nSize: 22 * 19 * 41 cm\nand new designs in production", size: "22 * 19 * 41 cm", style: "purpleunicorn37/pink unicorn513/mermaid 1165/cat643/dino684/space358" },
+            { id: "p6", cat: "lunch", item: "U2058", name: "双层午餐包--dobule layer lunch bag", desc: "size：26.5*17.5*17cm", details: "size：26.5*17.5*17cm\nmis about 9 deigns", size: "26.5*17.5*17cm", style: "girl580/cata594/purpleunicornE 779/mermaid 884/DinoA228/shark 862 / girl 580/cat a594/unicorn E 779/mermaid 884/DinoA228/Shark 862 / girl 580/cat a594/purple unicorn E 779/mermaid 884/dino A228/shark 862 / girl 580/cat a594/purple unicorn E 779/mermaid 884/Dino A228/Shark 862" },
+            { id: "p7", cat: "acc", item: "U2109A", name: "pencil-box", desc: "材质：EVA\n尺寸：16*4*22\n包装方式：opp袋，18个/展示盒；4个展示盒/箱\n大容量3D造型EVA笔盒，便携，防水，分类收纳", details: "", size: "16*4*22", style: "unicorn952/cat1349/Dino1565/space1516/football965/butterfly1125" },
+            { id: "p8", cat: "acc", item: "U2094", name: "pencil bag", desc: "材质：420D+PU\n尺寸：23*8*9cm\n包装方式：opp袋\n双拉链笔袋，可爱3d造型，12个颜色可选", details: "Material: 420D  + PU\nDimensions: 23*8*9cm (LWH)\nPackaging: OPP bag\nDouble-Zipper Pencil Case, Cute 3D Design, 12 Colors Available", size: "23*8*9cm", style: "有货" },
+            { id: "p9", cat: "acc", item: "U2109B", name: "pencil-box set double layer/zipper", desc: "材质：EVA\n笔盒尺寸：16*4*22\n包装方式：PVC盒装；\n大容量3D造型EVA笔盒+文具套装（一把剪纸剪刀，一个橡皮擦，一个笔刨，2支铅笔，1把尺子，12色水彩笔），便携，防水，分类收纳", details: "材质：EVA\n笔盒尺寸：16*4*22\n包装方式：PVC盒装；\n大容量3D造型EVA笔盒+文具套装（一把剪纸剪刀，一个橡皮擦，一个笔刨，2支铅笔，1把尺子，12色水彩笔），便携，防水，分类收纳", size: "16*4*22", style: "unicorn195/beauty288/cat640/Dino526/space311/blackfootball922/butterfly307" },
+            { id: "p10", cat: "acc", item: "U2089", name: "文具套装\nStationery Set", desc: "20*25*3.5cm\n内容：12支彩色铅笔\n12支彩色马克笔\n4支闪光凝胶笔\n2支铅笔\n1张名片\n1个橡皮擦\n1个15cm尺子\n1个磨刀器\n1个彩色书\n1把剪刀", details: "20*25*3.5cm\nContents:\n12 x coloured pencils\n12 x coloured markers\n4 x glitter gel pens\n2 x pencils\n1 x name card\n1 x eraser\n1 x 15cm ruler\n1 x sharpener\n1 x colouring book\n1 x scissors", size: "20*25*3.5cm", style: "unicorn498/cat1055/space656/blackfootball599/butterfly1458" },
+            { id: "p11", cat: "acc", item: "U2024", name: "双层斜挎包\nDouble layered crossbody bag", desc: "", details: "", size: "", style: "" },
+            { id: "p12", cat: "bag", item: "U2021", name: "中号背包\nmiddle-backpack", desc: "材质：防水斜纹布印花+PU\n尺寸：34.5*27.5*12cm\n包装方式：opp袋\n中号背包，内含名字卡，双层收纳，3D造型", details: "(backpack) - space theme\nMaterial: Waterproof twill printing\nSize: 34.5*27.5*12cm", size: "34.5*27.5*12cm", style: "butterfly 103/mermaid 800/cat 292/space b20" },
+            { id: "p13", cat: "lunch", item: "U2058-1", name: "双层午餐包--dobule layer lunch bag", desc: "size：26.5*17.5*17cm", details: "size：26.5*17.5*17cm\nmis about 9 deigns", size: "26.5*17.5*17cm", style: "butterfly 1203/cat c350/space b696/football 439/forest dino 167 / butterfly 1203/cat c350/space b696/black football /439/forest dino167" },
+            { id: "p14", cat: "acc", item: "U2069", name: "胶章笔袋pencil bag", desc: "材质：600D+PU\n尺寸：23*12.5*6cm\n包装方式：OPP袋\n胶章笔袋，内设笔夹插位，大容量，卡通外形，多色可选", details: "about\n20 color mix\nDouble-layer storage layer", size: "23*12.5*6cm", style: "有货" },
+            { id: "p15", cat: "bottle", item: "U2051", name: "斜跨吸管水杯-straw cup with shoulder strap", desc: "材质：进口食品级PC，ABS,涤纶网络丝, 硅胶,\n容量： 650ML,\n尺寸：86*80*223mm\n包装：防冻防裂PVC盒装；5款水杯混 装，配印花可调节背带60-120cm，采用速干面料，ABS 底托，防摔， 耐磨；内置密封硅胶圈，防漏；外设安全锁扣不怕误压漏水，易清洗； 使用温度：-10到110度", details: "Material: imported food grade PC, ABS, polyester network silk, silica gel, capacity: 650ml, size: 86*80*223mm packaging: anti freezing and anti cracking PVC box; 5 water cups mixed, with printing adjustable shoulder straps of 60-120cm, made of quick drying fabric, ABS bottom support, fall proof and wear-resistant; Built in sealed silicon rubber ring, leak proof; The external safety latch is not afraid of accidental pressure and water leakage, and is easy to clean; Service temperature: -10 to 110 degrees", size: "8.6*8.0*22.3cm", style: "有货" },
+            { id: "p16", cat: "lunch", item: "U2085", name: "4pcs set lunch box", desc: "四个尺寸  套娃式盒装,12套设计", details: "4pcs set snack box, 4 sizes, nested doll-style packaging，12designs", size: "13*13*6.5cm/11.5*1.5*5.5/10*10*5/8.5*8.5*4.5cm", style: "有货" },
+            { id: "p17", cat: "lunch", item: "U2087", name: "stainless steel lunch box", desc: "24*6.5*17cm\n800ml", details: "材质： PP+ABS+SILICONE,SUS304 STAINLESS STEEL ,410 STAINLESS STEEL", size: "24*6.5*17cm\n800ml", style: "有货" },
+            { id: "p18", cat: "lunch", item: "U2086", name: "stainless steel lunch box", desc: "24*6.2*17.5cm\n710ml", details: "", size: "24*6.2*17.5cm\n710ml", style: "有货" },
+            { id: "p19", cat: "lunch", item: "U2113", name: "Stainless steel lunch box with salad box\n三格饭盒加沙拉盒800ml", desc: "24*6.5*17cm\n 【material】：PP+ABS+SILICONE,SUS304 STAINLESS STEEL ,410 STAINLESS STEEL", details: "24*6.5*17cm\n 【material】：PP+ABS+SILICONE,SUS304 STAINLESS STEEL ,410 STAINLESS STEEL", size: "24*6.5*17cm", style: "有货" },
+            { id: "p20", cat: "lunch", item: "U2114", name: "plastic lunch box with salad box\n三格塑料饭盒加沙拉盒1280ml", desc: "24*6.5*17cm\n1200ML+80ml", details: "材质： PP+ABS+SILICONE", size: "24*6.5*17cm\n1200ML+80ml", style: "有货" },
+            { id: "p21", cat: "bottle", item: "U2131", name: "Sippy & Straw Cartoon Water Bottle 600ML with Shoulder Strap-600ml\n双饮水杯600ML+肩带", desc: "材质 tritan\n容量600ml,PVC 盒装", details: "Material tritan\nSippy & Straw Cartoon Transparent Water Bottle with Shoulder Strap, Packed in PVC Box", size: "600ML", style: "有货" },
+            { id: "p22", cat: "bottle", item: "U2130", name: "Sippy & Straw  Water Bottle 600ML with magnetic Plush Toy on Lid and Shoulder Strap 双饮水杯+磁性公仔头", desc: "", details: "", size: "", style: "" },
+            { id: "p23", cat: "lunch", item: "U2137", name: "Removable Lunch box\n可拆卸硅胶扣饭盒", desc: "✅ 食品级 PP + 硅胶材质，无 BPA / 邻苯二甲酸酯，安全健康​\n✅ 内托盘可微波（80-100℃/3 分钟），整体可 dishwasher 清洗​\n✅ 硅胶密封防漏，双硅胶夹设计，孩子轻松开合​\n✅21*14.9*5.3cm，800ml 容量适配儿童食量，仅 350g🎒", details: "✅ Food-grade PP + silicone material, BPA-free & Phthalates-free, safe and healthy​\n✅ Inner tray microwave-safe (80-100℃ for 3 minutes), whole box dishwasher-safe​\n✅ Silicone seal for leakproof, 2 silicone clips design for kids to open/close easily​\n✅ 21*14.9*5.3cm, 800ml capacity fits kids' appetite, only 350g lightweight & portable, ideal for school/trips🎒", size: "21*14.9*5.3cm, 800ml", style: "有货" },
+            { id: "p24", cat: "acc", item: "U2102", name: "Double waterproof string bag\n双层鞋袋束口袋", desc: "", details: "", size: "", style: "" }
         ];
 
-        // 2.6 渲染单张商品卡片（variant: 'scroll' 横向滚动 | 'grid' 完整网格）
+        // 2.5.1 商品图片（从 “Vest for website.xlsx” 内嵌图提取、去重、压缩；按货号分组的款式/配色实拍图）
+        const productImages = {
+            p1: ["assets/products/p1_1.jpg","assets/products/p1_2.jpg"],
+            p2: ["assets/products/p2_1.jpg","assets/products/p2_2.jpg","assets/products/p2_3.jpg","assets/products/p2_4.jpg"],
+            p3: ["assets/products/p3_1.jpg","assets/products/p3_2.jpg"],
+            p4: ["assets/products/p4_1.jpg","assets/products/p4_2.jpg","assets/products/p4_3.jpg","assets/products/p4_4.jpg"],
+            p5: ["assets/products/p5_1.jpg"],
+            p6: ["assets/products/p6_1.jpg"],
+            p7: ["assets/products/p7_1.jpg","assets/products/p7_2.jpg"],
+            p8: ["assets/products/p8_1.jpg","assets/products/p8_2.jpg"],
+            p9: ["assets/products/p9_1.jpg","assets/products/p9_2.jpg"],
+            p10: ["assets/products/p10_1.jpg","assets/products/p10_2.jpg","assets/products/p10_3.jpg"],
+            p11: ["assets/products/p11_1.jpg","assets/products/p11_2.jpg"],
+            p12: ["assets/products/p12_1.jpg","assets/products/p12_2.jpg","assets/products/p12_3.jpg"],
+            p13: ["assets/products/p13_1.jpg"],
+            p14: ["assets/products/p14_1.jpg","assets/products/p14_2.jpg"],
+            p15: ["assets/products/p15/p15_1.jpg","assets/products/p15/p15_2.jpg","assets/products/p15/p15_3.jpg","assets/products/p15/p15_4.jpg","assets/products/p15/p15_5.jpg","assets/products/p15/p15_6.jpg","assets/products/p15/p15_7.jpg","assets/products/p15/p15_8.jpg","assets/products/p15/p15_9.jpg","assets/products/p15/p15_10.jpg","assets/products/p15/p15_11.jpg","assets/products/p15/p15_12.jpg","assets/products/p15/p15_13.jpg","assets/products/p15/p15_14.jpg","assets/products/p15/p15_15.jpg","assets/products/p15/p15_16.jpg","assets/products/p15/p15_17.jpg","assets/products/p15/p15_18.jpg","assets/products/p15/p15_19.jpg"],
+            p16: ["assets/products/p16_1.jpg","assets/products/p16_2.jpg","assets/products/p16_3.jpg"],
+            p17: ["assets/products/p17_1.jpg","assets/products/p17_2.jpg","assets/products/p17_3.jpg"],
+            p18: ["assets/products/p18_1.jpg","assets/products/p18_2.jpg","assets/products/p18_3.jpg"],
+            p19: ["assets/products/p19_1.jpg","assets/products/p19_2.jpg","assets/products/p19_3.jpg"],
+            p20: ["assets/products/p20_1.jpg"],
+            p21: ["assets/products/p21_1.jpg"],
+            p22: ["assets/products/p22_1.jpg","assets/products/p22_2.jpg","assets/products/p22_3.jpg","assets/products/p22_4.jpg","assets/products/p22_5.jpg","assets/products/p22_6.jpg","assets/products/p22_7.jpg","assets/products/p22_8.jpg","assets/products/p22_9.jpg","assets/products/p22_10.jpg"],
+            p23: ["assets/products/p23_1.jpg"],
+            p24: ["assets/products/p24_1.jpg"]
+        };
+        products.forEach(p => { p.imgs = productImages[p.id] || []; });
+
+        // 2.6 渲染：HTML 转义 + 保留换行
+        function escapeHTML(value) {
+            return String(value || '').replace(/[&<>"']/g, (char) => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[char]));
+        }
+        function nl2br(value) { return escapeHTML(value).replace(/\n/g, '<br>'); }
+
+        // 详情字段块（标签 + 多行内容，保留换行）
+        function fieldHTML(label, value, icon) {
+            if (!value) return '';
+            return `
+                <div class="pd-field">
+                    <div class="flex items-center gap-2 text-[11px] font-bold text-indigo-600 uppercase tracking-widest mb-1.5">${icon ? `<i class="fa-solid ${icon}"></i>` : ''}<span>${label}</span></div>
+                    <div class="pd-value text-sm text-slate-600 leading-relaxed">${escapeHTML(value)}</div>
+                </div>`;
+        }
+
+        // 单张商品卡片（variant: 'scroll' 横向滚动 | 'grid' 完整网格），点击打开详情
         function cardHTML(p, lang, variant) {
             const widthClass = variant === 'scroll' ? 'snap-start shrink-0 w-72 sm:w-80' : '';
             const cat = cats[p.cat][lang];
-            const title = p.title[lang];
-            const desc = descs[p.cat][lang];
-            const age = ages[p.age][lang];
-            const spec = specs[p.spec][lang];
-            const alt = `${p.title.en} - VEST Myanmar | ${cats[p.cat].en}`;
+            const imgs = p.imgs || [];
+            const alt = escapeHTML(`${p.name} (${p.item}) - VEST Myanmar | ${cats[p.cat].en}`);
+            const media = imgs.length
+                ? `<img src="${imgs[0]}" alt="${alt}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">`
+                : `<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 text-slate-300"><i class="fa-solid ${catIcon[p.cat]} text-6xl"></i></div>`;
+            const count = imgs.length > 1
+                ? `<span class="absolute top-3 right-3 bg-black/55 text-white text-[11px] font-semibold px-2 py-1 rounded-lg inline-flex items-center gap-1"><i class="fa-solid fa-images"></i>${imgs.length}</span>`
+                : '';
+            const sizeLine = p.size
+                ? `<div class="mt-3 pt-3 border-t border-slate-100 flex items-center gap-1.5 text-xs text-slate-400 font-medium"><i class="fa-solid fa-ruler-combined text-slate-300 shrink-0"></i><span class="truncate">${escapeHTML(p.size)}</span></div>`
+                : '';
             return `
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden group ${widthClass}">
-                    <div class="h-64 bg-slate-100 relative overflow-hidden">
-                        <img src="${catImg[p.cat]}" alt="${alt}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                <button type="button" class="product-card-button bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${widthClass}" data-product-id="${p.id}">
+                    <div class="h-60 bg-slate-100 relative overflow-hidden">
+                        ${media}
+                        <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-[11px] font-bold text-slate-500 px-2.5 py-1 rounded-lg tracking-wider shadow-sm">${escapeHTML(p.item)}</span>
+                        ${count}
                     </div>
-                    <div class="p-6">
+                    <div class="p-5">
                         <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest">${cat}</span>
-                        <h3 class="text-xl font-bold text-slate-900 mt-2">${title}</h3>
-                        <p class="text-sm text-slate-500 mt-2 font-light">${desc}</p>
-                        <div class="mt-4 pt-4 border-t border-slate-100 flex justify-between text-xs text-slate-400 font-medium">
-                            <span>${age}</span>
-                            <span>${spec}</span>
-                        </div>
+                        <h3 class="text-base font-bold text-slate-900 mt-2 leading-snug line-clamp-2 min-h-[2.75rem]">${nl2br(p.name)}</h3>
+                        ${sizeLine}
+                        <div class="mt-3 text-xs font-bold text-indigo-600 inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all">${uiLabels.view[lang]}<i class="fa-solid fa-arrow-right text-[10px]"></i></div>
                     </div>
-                </div>`;
+                </button>`;
         }
 
         // 2.7 把所有商品渲染到「横向滚动区」与「完整网格」两个容器
@@ -692,6 +757,51 @@
             const gridHTML = products.map(p => cardHTML(p, lang, 'grid')).join('');
             document.getElementById('product-scroll').innerHTML = scrollHTML + scrollHTML;
             document.getElementById('product-grid').innerHTML = gridHTML;
+        }
+
+        // 商品详情：图片画廊 + 字段信息
+        const VIBER_NUMBER = '959780080666';
+        function openProductDetail(productId) {
+            const p = products.find(x => x.id === productId);
+            if (!p) return;
+            const lang = currentLang;
+            const imgs = p.imgs || [];
+            const main = imgs.length
+                ? `<img id="pd-main-img" src="${imgs[0]}" alt="${escapeHTML(p.name)}">`
+                : `<i class="fa-solid ${catIcon[p.cat]} text-7xl text-slate-300"></i>`;
+            const thumbs = imgs.length > 1
+                ? `<div class="pd-thumbs">${imgs.map((src, i) => `<button type="button" class="pd-thumb${i === 0 ? ' active' : ''}" data-full="${src}"><img src="${src}" alt="" loading="lazy"></button>`).join('')}</div>`
+                : '';
+            const gallery = `<div class="pd-gallery"><div class="pd-main">${main}</div>${thumbs}</div>`;
+            const fields = [
+                fieldHTML(detailLabels.desc, p.desc, 'fa-align-left'),
+                fieldHTML(detailLabels.details, p.details, 'fa-circle-info'),
+                fieldHTML(detailLabels.size, p.size, 'fa-ruler-combined'),
+                fieldHTML(detailLabels.style, p.style, 'fa-palette')
+            ].join('');
+            const info = `
+                <div class="pd-info">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest">${cats[p.cat][lang]}</span>
+                        <span class="bg-indigo-50 text-indigo-600 text-xs font-bold px-2.5 py-1 rounded-lg">${escapeHTML(p.item)}</span>
+                    </div>
+                    <h3 id="pd-title" class="text-xl md:text-2xl font-black text-slate-900 leading-snug mb-5">${nl2br(p.name)}</h3>
+                    ${fields || '<p class="text-sm text-slate-400">—</p>'}
+                    <a href="viber://chat?number=%2B${VIBER_NUMBER}" target="_blank" rel="noopener" class="mt-6 inline-flex items-center gap-2 px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors shadow-md shadow-indigo-600/20"><i class="fa-brands fa-viber"></i><span>${uiLabels.inquire[lang]}</span></a>
+                </div>`;
+            document.getElementById('pd-body').innerHTML = gallery + info;
+            const modal = document.getElementById('pd-modal');
+            modal.scrollTop = 0;
+            modal.classList.add('open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProductDetail() {
+            const modal = document.getElementById('pd-modal');
+            modal.classList.remove('open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
         }
 
         // 2.8 根据展开状态更新"更多/收起"按钮文案与图标
@@ -774,6 +884,31 @@
         // 顶部按钮：切换展开/收起；底部按钮：收起（效果同 Show Less）
         btnMore.addEventListener('click', () => setProductGrid(!gridOpen));
         document.getElementById('btn-less-bottom').addEventListener('click', () => setProductGrid(false));
+
+        // 点击商品卡片 → 打开详情
+        document.addEventListener('click', (event) => {
+            const el = event.target instanceof Element ? event.target : null;
+            const card = el && el.closest('[data-product-id]');
+            if (card) openProductDetail(card.getAttribute('data-product-id'));
+        });
+        // 详情弹窗内交互：缩略图切换主图 / 点击遮罩关闭
+        const pdModal = document.getElementById('pd-modal');
+        pdModal.addEventListener('click', (event) => {
+            const el = event.target instanceof Element ? event.target : null;
+            const thumb = el && el.closest('.pd-thumb');
+            if (thumb) {
+                const full = thumb.getAttribute('data-full');
+                const mainImg = document.getElementById('pd-main-img');
+                if (mainImg && full) mainImg.src = full;
+                pdModal.querySelectorAll('.pd-thumb').forEach(t => t.classList.toggle('active', t === thumb));
+                return;
+            }
+            if (event.target === pdModal) closeProductDetail();
+        });
+        document.getElementById('pd-close').addEventListener('click', closeProductDetail);
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closeProductDetail();
+        });
 
         // 横向滚动区左右箭头（桌面端）
         const productScroll = document.getElementById('product-scroll');
