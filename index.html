@@ -742,7 +742,16 @@
             view:    { zh: "查看详情", en: "View details", mm: "အသေးစိတ်ကြည့်ရန်" },
             inquire: { zh: "立即咨询 / 订购", en: "Inquire on Viber", mm: "Viber ဖြင့် စုံစမ်းရန်" }
         };
-        const products = [
+
+        // ============================================================
+        //  后端接口基础地址（产品列表 + 招商申请）—— 上线换 HTTPS 时只改这一行 ——
+        //  注意：线上 https 页面调用 http 接口会被浏览器按“混合内容”拦截，
+        //  届时需把接口挂到 HTTPS（如 nginx 反代）后改成 https 地址。
+        // ============================================================
+        const API_BASE = 'http://8.219.63.22:8787';
+
+        // 商品数据兜底：接口不可用时用它渲染，保证产品区永不空白（成功拉到接口会被替换）
+        const FALLBACK_PRODUCTS = [
             { id: "p1", cat: "bag", item: "U2116", name: "Vest backpacks", desc: "Vest backpacks are designed to fit children's bodies and are made with Ultra-lightweight technology to keep the\n weight of the bag as light as possible. Vest backpacks are made to meet the four criteria of children's health, \ncomfort, durability, and cuteness, so you can buy them with confidence. Trolley Backpack bag It can be pulled\n up and down stairs, and it has wheels, so it is convenient to carry heavy items, and the wheels can be removed \nand used, and it is a similar lunch bag.\nSize Chart: H 17\" / L 12\", W 6\" "},
             { id: "p2", cat: "bag", item: "U2055", name: "big backpack", desc: "The back of the bag is made of micro mesh, which is not like ordinary backpacks, so it improves the ventilation \n system on the back and reduces sweating.\n The designs are not poor quality, but are colorful and bright, and the images are made with 3D / HD prints, so \nchildren like the style.\n Vest backpacks are manufactured to meet the 4 factors of children's health, comfort, durability, and cuteness, so \n you can buy them with confidence.\n Size Chart: H  1'2.5.\" / L  12\" " },
             { id: "p3", cat: "bag", item: "U2065", name: "big-backpack", desc: "Vest backpacks are designed to fit children's bodies and are made with Ultra-lightweight technology to keep the \n weight of the bag as light as possible.\n Not only are the bags lightweight, but the backpack straps are designed with an S-Shape (wavy) design so that \n they do not hurt children's shoulders.\n The back of the bag is also made of micro mesh, unlike ordinary backpacks, which improves back ventilation and \n reduces sweating.\n The designs are not poor quality, but are colorful and bright, and the images are made with 3D / HD prints, which \n are the styles that children like.\n Vest backpacks are made to meet the 4 factors of children's health, comfort, durability, and cuteness, so you can \n buy them with confidence. \n Size Chart\n L - 12” H -15” \n "},
@@ -828,7 +837,38 @@
             p40: ["https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2098/01.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2098/02.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2098/03.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2098/04.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2098/05.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2098/06.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2098/07.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2098/08.png"],
             p41: ["https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2158/01.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2158/02.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2158/03.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2158/04.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2158/05.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2158/06.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2158/07.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2158/08.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2158/09.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2158/10.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2158/11.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2158/12.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2158/13.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2158/14.png","https://ozhouse.oss-ap-southeast-1.aliyuncs.com/vest/u2158/15.png"],
         };
-        products.forEach(p => { p.imgs = productImages[p.id] || []; });
+        FALLBACK_PRODUCTS.forEach(p => { p.imgs = productImages[p.id] || []; });
+
+        // 实际渲染用的商品数组：先用兜底数据，接口成功后在 loadProducts() 里被替换
+        let products = FALLBACK_PRODUCTS;
+
+        // 从后端接口拉取商品列表（{ products:[{ id, cat, item, name, desc, imgs, sort_order }] }），
+        // 成功则替换 products 并重渲染；失败保留兜底数据并在控制台告警。
+        async function loadProducts() {
+            try {
+                const res = await fetch(API_BASE + '/api/products', { headers: { 'Accept': 'application/json' } });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const json = await res.json();
+                const list = Array.isArray(json.products) ? json.products : [];
+                // 只保留已知分类，避免脏数据导致整段渲染崩溃；id 统一转成字符串以配合点击查详情
+                const clean = list
+                    .filter(p => p && cats[p.cat])
+                    .map(p => ({
+                        id: String(p.id),
+                        cat: p.cat,
+                        item: p.item || '',
+                        name: p.name || '',
+                        desc: p.desc || '',
+                        imgs: Array.isArray(p.imgs) ? p.imgs : []
+                    }));
+                if (!clean.length) return; // 接口空数据时保留兜底，不清空页面
+                products = clean;
+                renderProducts(currentLang);
+                updateMoreBtn(currentLang);
+            } catch (err) {
+                console.warn('[products] 接口获取失败，沿用静态兜底数据：', err.message);
+            }
+        }
 
         // 2.6 渲染：HTML 转义 + 保留换行
         function escapeHTML(value) {
@@ -1126,13 +1166,10 @@
         spySections.forEach(s => navSpy.observe(s));
 
         // ============================================================
-        //  招商表单：提交到 Web3Forms（邮件通知）+ 聊天直达（无需自建后台）
+        //  招商表单：提交到后端接口写入数据库 + 成功后提供聊天直达按钮
         //  —— 配置区：上线时只改这里 ——
         // ============================================================
         const LEAD_CONFIG = {
-            // ↓↓↓ Web3Forms 访问密钥：打开 https://web3forms.com → 输入你的收件邮箱 →
-            //     免费获取一串 Access Key（形如 a1b2c3d4-xxxx-xxxx-xxxx-xxxxxxxxxxxx）粘到这里
-            WEB3FORMS_KEY: '9ac4ca34-5f0a-4267-86bf-e3ff3cd3fb69',
             // 聊天直达号码：09780080666 → 去掉开头的 0、加国家码 95 → 959780080666
             VIBER_PHONE: '959780080666',
             // 如果改用 WhatsApp 收单（支持预填留言），填国际格式，如 959780080666；留空则不用
@@ -1195,38 +1232,22 @@
                 return;
             }
 
-            // 未配置 Web3Forms 密钥 → 降级为“仅聊天直达”
-            if (!LEAD_CONFIG.WEB3FORMS_KEY) {
-                window.open(buildChatLink(data), '_blank');
-                showLeadSuccess(data);
-                return;
-            }
-
-            // 正常路径：提交到 Web3Forms（返回带 CORS 的 JSON，可准确判断成功/失败）
+            // 正常路径：提交到后端接口，写入数据库（接口 CORS 全开，返回 JSON 便于判断成功/失败）
             const originalLabel = btnSubmit.textContent;
             btnSubmit.disabled = true;
             btnSubmit.textContent = langData[currentLang]['form-sending'];
             try {
-                const res = await fetch('https://api.web3forms.com/submit', {
+                const res = await fetch(API_BASE + '/api/partners', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify({
-                        access_key: LEAD_CONFIG.WEB3FORMS_KEY,
-                        subject: 'VEST 新招商线索 / New Retail Partner Lead',
-                        from_name: 'VEST Myanmar Website',
-                        '店名 Shop': data.shop,
-                        '联系人 Contact': data.name,
-                        '电话 Phone': data.phone,
-                        '城市 City': data.city,
-                        '语言 Lang': data.lang
-                    })
+                    body: JSON.stringify(data)
                 });
-                const json = await res.json();
-                if (json.success) {
+                const json = await res.json().catch(() => ({}));
+                if (res.ok && json.ok) {
                     partnerForm.reset();
                     showLeadSuccess(data);
                 } else {
-                    throw new Error(json.message || 'submit failed');
+                    throw new Error(json.error || ('HTTP ' + res.status));
                 }
             } catch (err) {
                 // 提交失败兜底：提示改用聊天/电话
@@ -1241,7 +1262,8 @@
 
         // 5. 初始化执行 (默认语言设为 英文 en，可按需改设为 'zh')
         document.addEventListener('DOMContentLoaded', () => {
-            switchLanguage('en');
+            switchLanguage('en');   // 先用兜底数据即时渲染
+            loadProducts();          // 再异步拉取接口，成功则替换为最新商品
         });
     </script>
 </body>
